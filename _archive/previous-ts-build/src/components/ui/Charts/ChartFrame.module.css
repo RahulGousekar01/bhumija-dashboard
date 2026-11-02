@@ -1,0 +1,60 @@
+.frame {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+  min-width: 0;
+  padding: var(--bh-space-5);
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-lg);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-sm);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--bh-space-3);
+  flex-wrap: wrap;
+}
+
+.header figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: var(--bh-text-md);
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-xs);
+}
+
+.actions {
+  display: flex;
+  gap: var(--bh-space-2);
+}
+
+.chart {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+/* ResponsiveContainer needs a definite height: pin it to the flexed box. */
+.chart > * {
+  position: absolute !important;
+  inset: 0;
+}
+
+/* Recharts focus outlines are not needed: the chart is decorative. */
+.chart :global(.recharts-surface):focus,
+.chart :global(.recharts-wrapper):focus {
+  outline: none;
+}

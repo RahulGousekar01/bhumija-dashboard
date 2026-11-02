@@ -1,0 +1,553 @@
+.dashboard-overview {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.overview-header {
+  margin-bottom: 14px;
+}
+
+.overview-header h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+  color: #212529;
+}
+
+.overview-header p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* Financial-year stock on the left, yesterday's board on the right. */
+.overview-cards {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 4fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+.overview-yesterday {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  border: 2px solid #ff6b72;
+  border-radius: 10px;
+  background: #fff7f7;
+}
+
+.overview-yesterday-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c92a2a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.overview-yesterday-header strong {
+  color: #212529;
+}
+
+.overview-yesterday-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* Cards inside the board use the board's red border instead of their own. */
+.overview-yesterday .overview-card {
+  border-top: 1px solid #f1d4d6;
+}
+
+.overview-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #e2e5e9;
+  border-top: 3px solid #ff6b72;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.overview-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.overview-card-icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #fff0f1;
+  color: #d6336c;
+}
+
+.overview-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.overview-card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #212529;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Breakdown rows: small marker, label on the left, value on the right. */
+.overview-card-list {
+  margin: 0;
+  padding: 8px 0 0;
+  list-style: none;
+  border-top: 1px dashed #e9ecef;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.overview-card-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.overview-card-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6c757d;
+}
+
+.overview-card-list span::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff6b72;
+  flex-shrink: 0;
+}
+
+.overview-card-list strong {
+  font-weight: 600;
+  color: #343a40;
+  white-space: nowrap;
+}
+
+.overview-card-note {
+  font-size: 11px;
+  color: #868e96;
+  font-style: italic;
+}
+
+/* ---------- Yesterday cards: bounce in, details in a pop-up ---------- */
+
+.overview-card-pop {
+  cursor: pointer;
+  animation: overview-bounce-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: var(--bounce-delay, 0ms);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.overview-card-pop:hover,
+.overview-card-pop:focus-visible,
+.overview-card-pop:focus-within {
+  z-index: 5;
+  transform: translateY(-3px);
+  border-color: #ffc9cc;
+  box-shadow: 0 8px 18px rgba(255, 107, 114, 0.18);
+}
+
+.overview-card-pop:focus-visible {
+  outline: 2px solid #c92a2a;
+  outline-offset: 2px;
+}
+
+.overview-card-hint {
+  font-size: 11px;
+  color: #c92a2a;
+  font-weight: 500;
+}
+
+.overview-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 20;
+  width: max(100%, 220px);
+  padding: 12px 14px;
+  border: 1px solid #ffd6d8;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(33, 37, 41, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px) scale(0.92);
+  transform-origin: top left;
+  transition: opacity 0.18s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.18s;
+  pointer-events: none;
+}
+
+/* Little arrow pointing at the card. */
+.overview-popover::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 22px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid #ffd6d8;
+  border-left: 1px solid #ffd6d8;
+  background: #ffffff;
+  transform: rotate(45deg);
+}
+
+.overview-card-pop:hover .overview-popover,
+.overview-card-pop:focus-within .overview-popover {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* Cards on the right open their pop-up towards the left. */
+.overview-yesterday-cards .overview-card-pop:nth-child(n + 3) .overview-popover {
+  left: auto;
+  right: 0;
+  transform-origin: top right;
+}
+
+.overview-yesterday-cards .overview-card-pop:nth-child(n + 3) .overview-popover::before {
+  left: auto;
+  right: 22px;
+}
+
+.overview-popover-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.overview-popover-title strong {
+  color: #212529;
+}
+
+.overview-popover .overview-card-list {
+  border-top: 1px dashed #f1d4d6;
+}
+
+.overview-popover .overview-card-note {
+  margin-bottom: 6px;
+}
+
+@keyframes overview-bounce-in {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.94);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overview-card-pop,
+  .overview-popover {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Stock and the period board stay side by side on laptop screens. */
+@media (max-width: 1280px) {
+  .overview-cards {
+    grid-template-columns: minmax(200px, 1fr) minmax(0, 3fr);
+  }
+}
+
+/* Narrower: the period board's four cards go 2 × 2, still beside the stock card. */
+@media (max-width: 1150px) {
+  .overview-yesterday-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .overview-yesterday-cards .overview-card-pop:nth-child(n) .overview-popover {
+    left: 0;
+    right: auto;
+    transform-origin: top left;
+  }
+
+  .overview-yesterday-cards .overview-card-pop:nth-child(n) .overview-popover::before {
+    left: 22px;
+    right: auto;
+  }
+
+  .overview-yesterday-cards .overview-card-pop:nth-child(even) .overview-popover {
+    left: auto;
+    right: 0;
+    transform-origin: top right;
+  }
+
+  .overview-yesterday-cards .overview-card-pop:nth-child(even) .overview-popover::before {
+    left: auto;
+    right: 22px;
+  }
+}
+
+@media (max-width: 860px) {
+  .overview-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .overview-yesterday-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* =========================================================
+   Ore flow: Extracted → Processed → In Stock → Transported → Payment
+   ========================================================= */
+
+.ore-flow {
+  margin-top: 12px;
+  padding: 16px 18px 18px;
+  border: 1px solid #e2e5e9;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.ore-flow-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-bottom: 14px;
+}
+
+.ore-flow-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.ore-flow-header span {
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.ore-flow-track {
+  display: flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ore-flow-step {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.flow-stage {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.flow-stage:hover,
+.flow-stage:focus-within {
+  z-index: 5;
+  background: #fff5f5;
+  transform: translateY(-3px);
+}
+
+.flow-stage:focus-visible {
+  outline: 2px solid #c92a2a;
+  outline-offset: 2px;
+}
+
+.flow-stage-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+  border: 2px solid #ff6b72;
+  border-radius: 50%;
+  background: #fff0f1;
+  color: #c92a2a;
+}
+
+.flow-stage-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.flow-stage-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #212529;
+  white-space: nowrap;
+}
+
+.flow-stage-caption {
+  font-size: 11px;
+  color: #868e96;
+}
+
+/* Arrow between steps. */
+.flow-arrow {
+  position: relative;
+  flex: 0 0 34px;
+  height: 2px;
+  margin-top: -40px;
+  background: linear-gradient(90deg, #ffc9cc, #ff6b72);
+}
+
+.flow-arrow::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  border-left: 8px solid #ff6b72;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+/* Pop-up for a flow step (shares .overview-popover styles). */
+.flow-popover {
+  left: 50%;
+  margin-left: -120px;
+  width: 240px;
+  text-align: left;
+  transform-origin: top center;
+}
+
+.flow-popover::before {
+  left: calc(50% - 5px);
+}
+
+.flow-stage:hover .overview-popover,
+.flow-stage:focus-within .overview-popover {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* Keep the pop-ups of the last steps on screen. */
+.ore-flow-step:last-child .flow-popover {
+  left: auto;
+  right: 0;
+  margin-left: 0;
+  transform-origin: top right;
+}
+
+.ore-flow-step:last-child .flow-popover::before {
+  left: auto;
+  right: 40px;
+}
+
+.ore-flow-step:first-child .flow-popover {
+  left: 0;
+  margin-left: 0;
+  transform-origin: top left;
+}
+
+.ore-flow-step:first-child .flow-popover::before {
+  left: 40px;
+}
+
+@media (max-width: 900px) {
+  .ore-flow-track {
+    flex-direction: column;
+  }
+
+  .ore-flow-step {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .flow-stage {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px 12px;
+    text-align: left;
+  }
+
+  .flow-stage-icon {
+    margin-bottom: 0;
+  }
+
+  /* Arrow points down between stacked steps. */
+  .flow-arrow {
+    flex: 0 0 22px;
+    width: 2px;
+    height: 22px;
+    margin: 0 0 0 30px;
+    background: linear-gradient(180deg, #ffc9cc, #ff6b72);
+  }
+
+  .flow-arrow::after {
+    right: -4px;
+    top: auto;
+    bottom: -1px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid #ff6b72;
+    border-bottom: 0;
+  }
+
+  .ore-flow-step .flow-popover,
+  .ore-flow-step:first-child .flow-popover,
+  .ore-flow-step:last-child .flow-popover {
+    left: 0;
+    right: auto;
+    margin-left: 0;
+    width: min(260px, 100%);
+    transform-origin: top left;
+  }
+}

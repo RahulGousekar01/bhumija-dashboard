@@ -1,0 +1,323 @@
+/* =========================================
+   ALERT & ACTIVITY
+========================================= */
+
+.alert-activity {
+  width: 100%;
+  margin-top: 28px;
+}
+
+.alert-activity-header {
+  margin-bottom: 14px;
+}
+
+.alert-activity-header h2 {
+  margin: 0;
+
+  font-size: 17px;
+  font-weight: 650;
+
+  color: #212529;
+}
+
+.alert-activity-header p {
+  margin: 4px 0 0;
+
+  font-size: 12px;
+
+  color: #6c757d;
+}
+
+/* =========================================
+     TWO COLUMN LAYOUT
+  ========================================= */
+
+.alert-activity-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+/* =========================================
+     PANELS
+  ========================================= */
+
+.alert-panel,
+.activity-panel {
+  min-width: 0;
+
+  padding: 16px;
+
+  border: 1px solid #e2e5e9;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+/* =========================================
+     PANEL HEADER
+  ========================================= */
+
+.panel-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding-bottom: 13px;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.panel-header h3 {
+  margin: 0;
+
+  font-size: 14px;
+
+  font-weight: 650;
+
+  color: #212529;
+}
+
+.panel-header span:not(.panel-count):not(.activity-live) {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 10px;
+
+  color: #868e96;
+}
+
+.panel-count {
+  min-width: 25px;
+  height: 25px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #fff1f2;
+
+  color: #dc3545;
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+.activity-live {
+  padding: 4px 7px;
+
+  border-radius: 4px;
+
+  background: #e9f7ef;
+
+  color: #146c43;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.4px;
+}
+
+/* =========================================
+     ALERT LIST
+  ========================================= */
+
+.alert-list,
+.activity-list {
+  display: flex;
+
+  flex-direction: column;
+}
+
+/* =========================================
+     ALERT ITEM
+  ========================================= */
+
+.alert-item {
+  min-height: 62px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.alert-item:last-child {
+  border-bottom: 0;
+}
+
+.alert-indicator {
+  width: 7px;
+  height: 7px;
+
+  margin-top: 5px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+}
+
+.alert-indicator.critical {
+  background: #dc3545;
+}
+
+.alert-indicator.warning {
+  background: #e67700;
+}
+
+.alert-indicator.info {
+  background: #1971c2;
+}
+
+.alert-content {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.alert-title-row,
+.activity-title-row {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.alert-title-row strong,
+.activity-title-row strong {
+  font-size: 11px;
+
+  font-weight: 650;
+
+  color: #343a40;
+}
+
+.alert-title-row span,
+.activity-title-row span {
+  flex-shrink: 0;
+
+  font-size: 9px;
+
+  color: #adb5bd;
+}
+
+.alert-content p,
+.activity-content p {
+  margin: 4px 0 0;
+
+  font-size: 10px;
+
+  line-height: 1.4;
+
+  color: #868e96;
+}
+
+/* =========================================
+     ACTIVITY ITEM
+  ========================================= */
+
+.activity-item {
+  min-height: 62px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.activity-item:last-child {
+  border-bottom: 0;
+}
+
+.activity-icon {
+  width: 26px;
+  height: 26px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  background: #f8f9fa;
+
+  color: #495057;
+
+  font-size: 12px;
+
+  font-weight: 650;
+}
+
+.activity-content {
+  min-width: 0;
+
+  flex: 1;
+}
+
+/* =========================================
+     VIEW ALL
+  ========================================= */
+
+.panel-view-all {
+  width: 100%;
+
+  margin-top: 9px;
+  padding: 9px 0 2px;
+
+  border: 0;
+
+  border-top: 1px solid #f1f3f5;
+
+  background: transparent;
+
+  text-align: left;
+
+  color: #dc3545;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.panel-view-all:hover {
+  color: #b02a37;
+}
+
+/* =========================================
+     RESPONSIVE
+  ========================================= */
+
+@media (max-width: 800px) {
+  .alert-activity-grid {
+    grid-template-columns: 1fr;
+  }
+}

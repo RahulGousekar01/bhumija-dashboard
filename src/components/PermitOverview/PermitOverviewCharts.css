@@ -1,0 +1,74 @@
+/* =========================================
+   Ore Source by Permit Type (shaded matrix)
+========================================= */
+
+.source-matrix-wrap {
+  overflow-x: auto;
+}
+
+.source-matrix {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px;
+  font-size: 12px;
+}
+
+.source-matrix-caption {
+  caption-side: bottom;
+  padding-top: 6px;
+  text-align: left;
+  font-size: 11px;
+  color: #868e96;
+}
+
+.source-matrix thead th {
+  padding: 4px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6c757d;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.source-matrix thead th:first-child,
+.source-matrix tbody th,
+.source-matrix tfoot th {
+  text-align: left;
+}
+
+.source-matrix tbody th,
+.source-matrix tfoot th {
+  padding: 8px 6px;
+  font-weight: 600;
+  color: #343a40;
+  white-space: nowrap;
+}
+
+.source-matrix tbody td {
+  padding: 9px 6px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  color: #212529;
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+}
+
+.source-matrix tbody td.empty {
+  background: #f8f9fa;
+  color: #ced4da;
+  font-weight: 400;
+}
+
+.source-matrix tbody td.total {
+  font-weight: 700;
+}
+
+.source-matrix tfoot td {
+  padding: 8px 6px;
+  border-top: 1px solid #e9ecef;
+  text-align: center;
+  font-weight: 700;
+  color: #212529;
+  font-variant-numeric: tabular-nums;
+}

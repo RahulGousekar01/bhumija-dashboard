@@ -1,0 +1,186 @@
+.dashboard-filters {
+  margin-bottom: 22px;
+  padding: 16px;
+
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.dashboard-filter-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+}
+
+.filter-eyebrow {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #dc3545;
+}
+
+.dashboard-filter-heading h1 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  color: #212529;
+}
+
+.party-scope {
+  margin: 3px 0 0;
+
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.role-badge {
+  padding: 6px 10px;
+
+  border-radius: 6px;
+
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  color: #495057;
+}
+
+.filter-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.filter-field {
+  flex: 1;
+  min-width: 150px;
+}
+
+.filter-field label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  color: #6c757d;
+}
+
+.filter-field select {
+  width: 100%;
+  height: 36px;
+
+  padding: 0 10px;
+
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #343a40;
+  font-size: 12px;
+
+  outline: none;
+}
+
+.filter-field select:focus {
+  border-color: #dc3545;
+}
+
+.filter-reset {
+  height: 36px;
+
+  padding: 0 14px;
+
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #495057;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.filter-reset:hover {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.party-scope-bar {
+  margin-top: 12px;
+  padding: 8px 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  border-radius: 5px;
+
+  background: #f8f9fa;
+
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.party-scope-bar strong {
+  color: #343a40;
+}
+
+.scope-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #198754;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .filter-controls {
+    flex-wrap: wrap;
+  }
+
+  .filter-field {
+    min-width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-filter-heading {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-field {
+    min-width: 100%;
+  }
+
+  .filter-reset {
+    width: 100%;
+  }
+}

@@ -1,0 +1,159 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f5f6f8;
+  color: #212529;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+
+  padding: 22px 24px;
+
+  overflow-x: hidden;
+}
+
+/* Keep dashboard modules compact */
+
+.main-content > section {
+  width: 100%;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #f5f6f8;
+  color: #212529;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app-shell {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.app-body {
+  flex: 1;
+  min-height: 0;
+
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+
+  padding: 22px 24px;
+
+  overflow-x: hidden;
+}
+
+.main-content > section {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
+}
+
+/* Dashboard grid responsiveness */
+@media (max-width: 1100px) {
+  .stock-summary-grid,
+  .ore-processing-grid,
+  .payment-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .stock-summary-grid,
+  .ore-processing-grid,
+  .payment-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Existing module detail shells now live inside the shared right drawer. */
+.stock-detail-header,
+.payment-detail-header,
+.processing-detail-header-legacy,
+.permit-modal-header,
+.operation-modal-header,
+.master-modal-header {
+  display: none;
+}
+
+.stock-detail-panel,
+.payment-detail-panel,
+.processing-detail-panel,
+.permit-modal-body,
+.operation-modal,
+.master-modal {
+  width: 100%;
+}
+
+/* Prevent legacy modal shells from applying fixed/centered positioning inside drawers. */
+.processing-detail-panel,
+.stock-detail-panel,
+.payment-detail-panel,
+.permit-modal-body,
+.operation-modal,
+.master-modal {
+  max-height: none !important;
+  width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .header-role-switcher {
+    gap: 4px;
+  }
+
+  .header-role-select {
+    height: 32px;
+    max-width: 125px;
+  }
+}

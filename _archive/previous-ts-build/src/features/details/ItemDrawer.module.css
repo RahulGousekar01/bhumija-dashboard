@@ -1,0 +1,20 @@
+.exportButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bh-space-2);
+  min-height: 36px;
+  padding: 0 var(--bh-space-4);
+  border: 1px solid var(--bh-brand-strong);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-brand-strong);
+  color: var(--bh-on-brand);
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--bh-transition);
+}
+
+.exportButton:hover {
+  background: var(--bh-brand-hover);
+}

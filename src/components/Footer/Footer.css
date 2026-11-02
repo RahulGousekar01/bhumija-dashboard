@@ -1,0 +1,26 @@
+.app-footer {
+  min-height: 38px;
+  flex-shrink: 0;
+
+  padding: 0 22px;
+
+  background: #ffffff;
+  border-top: 1px solid #e9ecef;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: 9px;
+  color: #868e96;
+}
+
+@media (max-width: 600px) {
+  .app-footer {
+    justify-content: center;
+  }
+
+  .app-footer span:last-child {
+    display: none;
+  }
+}

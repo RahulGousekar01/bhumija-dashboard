@@ -1,0 +1,80 @@
+.subheading {
+  margin: 0;
+  font-size: var(--bh-text-md);
+  font-weight: 700;
+}
+
+.subtext {
+  margin: 2px 0 var(--bh-space-3);
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-xs);
+}
+
+.chartGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  gap: var(--bh-space-3);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-4);
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--bh-space-3);
+}
+
+.totalBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--bh-space-3);
+  padding: var(--bh-space-4);
+  border-radius: var(--bh-radius-md);
+  background: var(--bh-brand-soft);
+  color: var(--bh-brand-strong);
+}
+
+.totalBanner span {
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+}
+
+.totalBanner strong {
+  font-size: var(--bh-text-xl);
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  padding: var(--bh-space-4);
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+  background: var(--bh-surface);
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--bh-space-3);
+  margin-bottom: var(--bh-space-2);
+}
+
+.panelHeader h3,
+.panelHeader h4 {
+  margin: 0;
+  font-size: var(--bh-text-md);
+}
+
+.panelHeader strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}

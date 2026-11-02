@@ -1,0 +1,242 @@
+/* ---------- Card ---------- */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-2);
+  min-height: 132px;
+  width: 100%;
+  padding: var(--bh-space-4);
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-sm);
+  color: var(--bh-text);
+  text-align: left;
+}
+
+.highlight {
+  border-color: transparent;
+  background: var(--bh-brand-strong);
+  color: var(--bh-on-brand);
+}
+
+.highlight .title,
+.highlight .caption {
+  color: inherit;
+  opacity: 0.9;
+}
+
+.critical {
+  border-left: 4px solid var(--bh-critical);
+}
+
+.interactive {
+  cursor: pointer;
+  transition: border-color var(--bh-transition), box-shadow var(--bh-transition),
+    transform var(--bh-transition);
+}
+
+.interactive:hover {
+  border-color: var(--bh-brand);
+  box-shadow: var(--bh-shadow-md);
+  transform: translateY(-1px);
+}
+
+.interactive:focus-visible {
+  outline: none;
+  border-color: var(--bh-brand);
+  box-shadow: var(--bh-focus-ring);
+}
+
+.interactive:hover .openIcon,
+.interactive:focus-visible .openIcon {
+  background: var(--bh-brand);
+  color: var(--bh-on-brand);
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--bh-space-2);
+}
+
+.title {
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bh-space-2);
+  flex-shrink: 0;
+}
+
+.openIcon {
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bh-surface-sunken);
+  color: var(--bh-text-muted);
+  transition: background var(--bh-transition), color var(--bh-transition);
+}
+
+.value {
+  font-size: var(--bh-text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.caption {
+  margin-top: auto;
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+.extra {
+  display: block;
+  margin-top: var(--bh-space-1);
+}
+
+/* ---------- Badge ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-neutral {
+  background: var(--bh-surface-sunken);
+  color: var(--bh-text-muted);
+}
+
+.badge-brand {
+  background: var(--bh-brand-soft);
+  color: var(--bh-brand-strong);
+}
+
+.badge-critical {
+  background: var(--bh-critical-soft);
+  color: var(--bh-critical);
+}
+
+.badge-warning {
+  background: var(--bh-warning-soft);
+  color: var(--bh-warning);
+}
+
+.badge-info {
+  background: var(--bh-info-soft);
+  color: var(--bh-info);
+}
+
+.badge-success {
+  background: var(--bh-success-soft);
+  color: var(--bh-success);
+}
+
+.highlight .badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+
+/* ---------- Tiles ---------- */
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--bh-space-3);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--bh-space-3) var(--bh-space-4);
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+  background: var(--bh-surface-muted);
+}
+
+.tileLabel {
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tileValue {
+  font-size: var(--bh-text-lg);
+  font-variant-numeric: tabular-nums;
+}
+
+.tileCaption {
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+/* ---------- Key / value rows ---------- */
+
+.kvList {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kvRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--bh-space-3);
+  padding: var(--bh-space-2) 0;
+  border-bottom: 1px dashed var(--bh-border);
+  font-size: var(--bh-text-sm);
+}
+
+.kvRow:last-child {
+  border-bottom: 0;
+}
+
+.kvTerm {
+  color: var(--bh-text-muted);
+  display: flex;
+  align-items: baseline;
+  gap: var(--bh-space-2);
+}
+
+.kvValue {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.kvHint {
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+.highlight .kvRow {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.highlight .kvTerm,
+.highlight .kvHint {
+  color: inherit;
+  opacity: 0.85;
+}

@@ -1,0 +1,582 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+}
+
+/* ---------- Toolbar ---------- */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bh-space-3);
+}
+
+.search {
+  position: relative;
+  flex: 1 1 280px;
+  display: flex;
+  align-items: center;
+  color: var(--bh-text-subtle);
+}
+
+.search svg {
+  position: absolute;
+  left: 10px;
+  pointer-events: none;
+}
+
+.search input {
+  width: 100%;
+  height: 38px;
+  padding: 0 var(--bh-space-3) 0 32px;
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-surface);
+  font-size: var(--bh-text-sm);
+}
+
+.search input:focus-visible {
+  outline: none;
+  border-color: var(--bh-brand-strong);
+  box-shadow: var(--bh-focus-ring);
+}
+
+.toggles {
+  display: flex;
+  gap: var(--bh-space-3);
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bh-space-2);
+  font-size: var(--bh-text-sm);
+  color: var(--bh-text-muted);
+  cursor: pointer;
+}
+
+.toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--bh-brand-strong);
+}
+
+.exports {
+  display: flex;
+  gap: var(--bh-space-2);
+  margin-left: auto;
+}
+
+.exports button,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bh-space-1);
+  min-height: 34px;
+  padding: 0 var(--bh-space-3);
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-surface);
+  color: var(--bh-text);
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.exports button:hover,
+.secondaryButton:hover {
+  border-color: var(--bh-brand-strong);
+  color: var(--bh-brand-strong);
+}
+
+.primaryButton {
+  min-height: 34px;
+  padding: 0 var(--bh-space-4);
+  border: 1px solid var(--bh-brand-strong);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-brand-strong);
+  color: var(--bh-on-brand);
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--bh-brand-hover);
+}
+
+.primaryButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---------- Chips ---------- */
+
+.chipRows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-2);
+}
+
+.chipGroup,
+.statusChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-2);
+}
+
+.chipGroup button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bh-space-2);
+  min-height: 32px;
+  padding: 0 var(--bh-space-3);
+  border: 1px solid var(--bh-border);
+  border-radius: 999px;
+  background: var(--bh-surface);
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chipGroup button:hover {
+  border-color: var(--bh-brand);
+  color: var(--bh-text);
+}
+
+.chipGroup button[aria-pressed="true"] {
+  border-color: var(--bh-brand-strong);
+  background: var(--bh-brand-strong);
+  color: var(--bh-on-brand);
+}
+
+.count {
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--bh-surface-sunken);
+  color: var(--bh-text-muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.chipGroup button[aria-pressed="true"] .count {
+  background: rgba(255, 255, 255, 0.22);
+  color: inherit;
+}
+
+.statusToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 var(--bh-space-2);
+  border: 1px solid var(--bh-border);
+  border-radius: 999px;
+  background: var(--bh-surface);
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-xs);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.statusToggle[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.activeChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bh-space-1);
+  padding: 2px 4px 2px 10px;
+  border: 1px solid var(--bh-brand);
+  border-radius: 999px;
+  background: var(--bh-brand-soft);
+  color: var(--bh-brand-strong);
+  font-size: var(--bh-text-xs);
+  font-weight: 600;
+}
+
+.activeChip button {
+  width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.resultLine {
+  margin: 0;
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+/* ---------- Table ---------- */
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-lg);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--bh-text-sm);
+}
+
+.table th,
+.table td {
+  padding: 10px var(--bh-space-3);
+  border-bottom: 1px solid var(--bh-border);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bh-surface-muted);
+  color: var(--bh-text-muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table tbody th {
+  font-weight: 600;
+}
+
+.table tbody tr {
+  transition: background var(--bh-transition);
+}
+
+.table tbody tr:hover {
+  background: var(--bh-surface-muted);
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table .numCell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.table .numCell .sortButton {
+  margin-left: auto;
+}
+
+.selectedRow {
+  background: var(--bh-brand-soft) !important;
+  box-shadow: inset 3px 0 0 var(--bh-brand);
+}
+
+.flaggedRow td:first-child {
+  box-shadow: inset 3px 0 0 var(--bh-critical);
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--bh-brand-strong);
+}
+
+.table tbody tr {
+  cursor: pointer;
+}
+
+.refButton {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.refNo {
+  color: var(--bh-brand-strong);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.refButton:hover .refNo {
+  text-decoration: underline;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtle {
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+.ageOver {
+  color: var(--bh-critical);
+  font-weight: 700;
+}
+
+/* Status chip uses the portal's status palette (inline colours). */
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 9px 2px 7px;
+  border-radius: 999px;
+  font-size: var(--bh-text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.recon {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--bh-radius-sm);
+  font-size: var(--bh-text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.reconOk {
+  background: var(--bh-success-soft);
+  color: var(--bh-success);
+}
+
+.reconVariance {
+  background: var(--bh-warning-soft);
+  color: var(--bh-warning);
+}
+
+.reconProvisional {
+  background: var(--bh-info-soft);
+  color: var(--bh-info);
+}
+
+.flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: var(--bh-text-xs);
+  font-weight: 700;
+}
+
+.flag-high {
+  background: var(--bh-critical-soft);
+  color: var(--bh-critical);
+}
+
+.flag-medium {
+  background: var(--bh-warning-soft);
+  color: var(--bh-warning);
+}
+
+.flag-low {
+  background: var(--bh-surface-sunken);
+  color: var(--bh-text-muted);
+}
+
+.reviewed {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--bh-success);
+  font-size: var(--bh-text-xs);
+  font-weight: 700;
+}
+
+/* ---------- Pager / notes / empty ---------- */
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--bh-space-4);
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-sm);
+}
+
+.pager div {
+  display: flex;
+  gap: var(--bh-space-1);
+}
+
+.pager button {
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-surface);
+  cursor: pointer;
+}
+
+.pager button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pager label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bh-space-2);
+}
+
+.pager select {
+  height: 32px;
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-surface);
+}
+
+.slaNote {
+  margin: 0;
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--bh-space-2);
+  padding: var(--bh-space-8);
+  border: 1px dashed var(--bh-border-strong);
+  border-radius: var(--bh-radius-lg);
+  background: var(--bh-surface);
+  color: var(--bh-success);
+}
+
+.empty p {
+  margin: 0;
+  color: var(--bh-text-muted);
+}
+
+/* ---------- Sign-off ---------- */
+
+.signOffSummary {
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-4);
+  font-size: var(--bh-text-sm);
+}
+
+.signOffSummary p {
+  margin: 0;
+}
+
+.signOffMeter {
+  flex: 0 0 180px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bh-chart-track);
+  overflow: hidden;
+}
+
+.signOffMeter span {
+  display: block;
+  height: 100%;
+  background: var(--bh-success);
+}
+
+.remarkCell {
+  white-space: normal !important;
+  min-width: 240px;
+}
+
+.inlineForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-2);
+}
+
+.inlineForm textarea {
+  width: 100%;
+  padding: var(--bh-space-2);
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+  font: inherit;
+  font-size: var(--bh-text-sm);
+  resize: vertical;
+}
+
+.inlineForm textarea:focus-visible {
+  outline: none;
+  border-color: var(--bh-brand-strong);
+  box-shadow: var(--bh-focus-ring);
+}
+
+.inlineActions {
+  display: flex;
+  gap: var(--bh-space-2);
+}
+
+.inlineActions button:not(.primaryButton) {
+  min-height: 34px;
+  padding: 0 var(--bh-space-3);
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-surface);
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .exports {
+    margin-left: 0;
+  }
+
+  .signOffSummary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .signOffMeter {
+    flex-basis: auto;
+    width: 100%;
+  }
+}

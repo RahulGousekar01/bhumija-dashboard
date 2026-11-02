@@ -1,0 +1,151 @@
+/* ---------- Segmented control ---------- */
+
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-surface-sunken);
+  align-self: flex-start;
+}
+
+.segment {
+  min-height: 34px;
+  padding: 0 var(--bh-space-4);
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--bh-transition), color var(--bh-transition);
+}
+
+.segment:hover {
+  color: var(--bh-text);
+}
+
+.segment[aria-pressed="true"] {
+  background: var(--bh-surface);
+  color: var(--bh-brand-strong);
+  box-shadow: var(--bh-shadow-sm);
+}
+
+/* ---------- Select field ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-1);
+  min-width: 150px;
+  flex: 1 1 150px;
+}
+
+.fieldWide {
+  flex-basis: 220px;
+}
+
+.fieldLabel {
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-xs);
+  font-weight: 600;
+}
+
+.select {
+  height: 38px;
+  padding: 0 32px 0 var(--bh-space-3);
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+  background-color: var(--bh-surface);
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  appearance: none;
+  font-size: var(--bh-text-sm);
+  cursor: pointer;
+}
+
+.select:hover {
+  border-color: var(--bh-text-subtle);
+}
+
+.select:focus-visible {
+  outline: none;
+  border-color: var(--bh-brand);
+  box-shadow: var(--bh-focus-ring);
+}
+
+/* ---------- Table ---------- */
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--bh-text-sm);
+}
+
+.caption {
+  padding: var(--bh-space-3) var(--bh-space-4);
+  text-align: left;
+  font-weight: 700;
+  background: var(--bh-surface-muted);
+  border-bottom: 1px solid var(--bh-border);
+}
+
+.table th,
+.table td {
+  padding: var(--bh-space-3) var(--bh-space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--bh-border);
+  white-space: nowrap;
+}
+
+.table thead th {
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table tbody th {
+  font-weight: 500;
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table tfoot th,
+.table tfoot td {
+  border-top: 1px solid var(--bh-border-strong);
+  border-bottom: 0;
+  background: var(--bh-surface-muted);
+  font-weight: 700;
+}
+
+.table .numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Callout ---------- */
+
+.callout {
+  padding: var(--bh-space-3) var(--bh-space-4);
+  border-left: 3px solid var(--bh-info);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-info-soft);
+  color: var(--bh-text);
+  font-size: var(--bh-text-sm);
+}

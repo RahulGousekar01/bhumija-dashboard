@@ -1,0 +1,158 @@
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #e2e5e9;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.chart-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-bottom: 10px;
+}
+
+.chart-card-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.chart-card-header span {
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.chart-card-body {
+  width: 100%;
+  min-width: 0;
+}
+
+.chart-card-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 10px;
+  font-size: 11px;
+  color: #495057;
+}
+
+.chart-card-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-card-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.chart-card-footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f1f3f5;
+  font-size: 11px;
+  color: #6c757d;
+}
+
+/* Grid used by the sections to place charts under their cards. */
+.section-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.section-charts.single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.section-charts.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1100px) {
+  .section-charts.three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .section-charts,
+  .section-charts.three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Simple share rows (e.g. "What the Processed Ore Became"). */
+.output-mix {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.output-mix-row {
+  display: grid;
+  grid-template-columns: 1fr auto 44px;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.output-mix-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.output-mix-label i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.output-mix-row strong {
+  font-size: 14px;
+  color: #212529;
+}
+
+.output-mix-share {
+  font-size: 13px;
+  font-weight: 700;
+  color: #495057;
+  text-align: right;
+}
+
+.output-mix-track {
+  height: 10px;
+  border-radius: 999px;
+  background: #f1f3f5;
+  overflow: hidden;
+}
+
+.output-mix-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.output-mix-note {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #868e96;
+}

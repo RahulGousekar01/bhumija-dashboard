@@ -1,0 +1,27 @@
+{
+  "name": "bhumija-dashboard",
+  "version": "1.0.0",
+  "description": "Bhumija Mining Management Portal - Dashboard (T-1)",
+  "keywords": [],
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-scripts": "^5.0.0",
+    "recharts": "2.15.4"
+  },
+  "devDependencies": {
+    "loader-utils": "3.2.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

@@ -1,0 +1,724 @@
+/* =========================================
+   ORE PROCESSING
+========================================= */
+
+.ore-processing {
+  width: 100%;
+  margin-top: 28px;
+}
+
+.ore-processing-header {
+  margin-bottom: 14px;
+}
+
+.ore-processing-header h2 {
+  margin: 0;
+
+  font-size: 17px;
+  font-weight: 650;
+
+  color: #212529;
+}
+
+.ore-processing-header p {
+  margin: 4px 0 0;
+
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* =========================================
+     FOUR MAIN CARDS
+  ========================================= */
+
+.ore-processing-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.processing-card {
+  min-height: 150px;
+
+  padding: 16px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e5e9;
+  border-radius: 8px;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.processing-card:hover {
+  border-color: #d7dade;
+}
+
+/* =========================================
+     CARD HEADER
+  ========================================= */
+
+.processing-card-top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.processing-card-label {
+  font-size: 13px;
+
+  font-weight: 600;
+
+  color: #495057;
+}
+
+.processing-view-only {
+  padding: 3px 7px;
+
+  border-radius: 4px;
+
+  background: #f1f3f5;
+
+  color: #6c757d;
+
+  font-size: 10px;
+
+  font-weight: 600;
+}
+
+/* =========================================
+     TOTAL PROCESSED
+  ========================================= */
+
+.total-processed-card {
+  cursor: default;
+}
+
+.processing-total-value,
+.processing-card-total {
+  margin-top: 17px;
+
+  font-size: 21px;
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  color: #212529;
+}
+
+.processing-card-description {
+  margin-top: 9px;
+
+  font-size: 11px;
+
+  color: #868e96;
+}
+
+/* =========================================
+     OPEN BUTTON
+  ========================================= */
+
+.processing-open-button {
+  width: 25px;
+  height: 25px;
+
+  padding: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 5px;
+
+  background: #fff1f2;
+
+  color: #dc3545;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.processing-open-button:hover {
+  background: #dc3545;
+
+  color: #ffffff;
+}
+
+/* =========================================
+     eAUCTION CARD
+  ========================================= */
+
+.eauction-card {
+  cursor: default;
+}
+
+.processing-material-list {
+  margin-top: 13px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.material-row {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding-bottom: 6px;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.material-row:last-child {
+  border-bottom: 0;
+
+  padding-bottom: 0;
+}
+
+.material-row-left {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+.material-row-label {
+  font-size: 11px;
+
+  font-weight: 600;
+
+  color: #495057;
+}
+
+.material-grade-count {
+  padding: 2px 5px;
+
+  border-radius: 3px;
+
+  background: #f8f9fa;
+
+  font-size: 8px;
+
+  color: #868e96;
+}
+
+.material-row-value {
+  font-size: 10px;
+
+  font-weight: 600;
+
+  color: #343a40;
+
+  white-space: nowrap;
+}
+
+/* =========================================
+     ROYALTY CARDS
+  ========================================= */
+
+.royalty-processing-card {
+  cursor: default;
+}
+
+.royalty-card-top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.royalty-card-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.processing-flag {
+  padding: 4px 8px;
+
+  border-radius: 5px;
+
+  color: #ffffff;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+}
+
+.primary-flag {
+  background: #146c43;
+}
+
+.secondary-flag {
+  background: #e67700;
+}
+
+.detail-flag {
+  margin-left: 8px;
+}
+
+/* =========================================
+     DETAIL OVERLAY
+  ========================================= */
+
+.processing-detail-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1100;
+
+  padding: 24px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(33, 37, 41, 0.45);
+}
+
+.processing-detail-panel {
+  width: min(1050px, 100%);
+
+  max-height: calc(100vh - 48px);
+
+  overflow-y: auto;
+
+  background: #ffffff;
+
+  border-radius: 10px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================
+     DETAIL HEADER
+  ========================================= */
+
+.processing-detail-header {
+  padding: 20px 22px;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #e9ecef;
+}
+
+.processing-detail-title-row {
+  display: flex;
+
+  align-items: center;
+}
+
+.detail-eyebrow {
+  font-size: 10px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.7px;
+
+  color: #dc3545;
+}
+
+.processing-detail-header h3 {
+  margin: 6px 0 3px;
+
+  font-size: 20px;
+
+  font-weight: 650;
+
+  color: #212529;
+}
+
+.processing-detail-header p {
+  margin: 0;
+
+  font-size: 12px;
+
+  color: #6c757d;
+}
+
+.processing-close-button {
+  width: 32px;
+  height: 32px;
+
+  border: 0;
+
+  border-radius: 6px;
+
+  background: #f8f9fa;
+
+  color: #495057;
+
+  font-size: 22px;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.processing-close-button:hover {
+  background: #e9ecef;
+}
+
+/* =========================================
+     MATERIAL SUMMARY
+  ========================================= */
+
+.processing-material-summary {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 12px;
+
+  padding: 18px 22px;
+}
+
+.processing-material-card {
+  padding: 14px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 7px;
+
+  background: #ffffff;
+}
+
+.processing-material-name {
+  display: block;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  color: #6c757d;
+}
+
+.processing-material-card strong {
+  display: block;
+
+  margin-top: 8px;
+
+  font-size: 18px;
+
+  color: #212529;
+}
+
+.processing-material-description {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 10px;
+
+  color: #868e96;
+}
+
+/* =========================================
+     GRADE SECTION
+  ========================================= */
+
+.processing-grade-section {
+  padding: 0 22px 22px;
+}
+
+.processing-grade-heading {
+  margin-bottom: 12px;
+}
+
+.processing-grade-heading h4 {
+  margin: 0;
+
+  font-size: 14px;
+
+  font-weight: 650;
+}
+
+.processing-grade-heading p {
+  margin: 4px 0 0;
+
+  font-size: 11px;
+
+  color: #868e96;
+}
+
+.processing-grade-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+/* =========================================
+     GRADE CARD
+  ========================================= */
+
+.processing-grade-card {
+  padding: 15px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+.processing-grade-card-header {
+  padding-bottom: 12px;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.processing-grade-card-header h5 {
+  margin: 0;
+
+  font-size: 13px;
+
+  font-weight: 650;
+}
+
+.processing-grade-card-header span {
+  display: block;
+
+  margin-top: 4px;
+
+  font-size: 11px;
+
+  color: #6c757d;
+}
+
+.processing-grade-list {
+  margin-top: 13px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 13px;
+}
+
+/* =========================================
+     GRADE ROW
+  ========================================= */
+
+.processing-grade-row {
+  position: relative;
+}
+
+.processing-grade-row-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 5px;
+
+  font-size: 11px;
+
+  color: #495057;
+}
+
+.processing-grade-row-top span:first-child {
+  font-weight: 600;
+}
+
+.processing-grade-row-top span:last-child {
+  color: #6c757d;
+}
+
+.processing-grade-progress {
+  height: 7px;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: #f1f3f5;
+}
+
+.processing-grade-progress-fill {
+  height: 100%;
+
+  min-width: 2px;
+
+  border-radius: inherit;
+
+  background: #dc3545;
+}
+
+.processing-grade-percentage {
+  margin-top: 3px;
+
+  text-align: right;
+
+  font-size: 9px;
+
+  color: #868e96;
+}
+
+/* =========================================
+     RESPONSIVE
+  ========================================= */
+
+@media (max-width: 1100px) {
+  .ore-processing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .processing-material-summary,
+  .processing-grade-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .processing-detail-overlay {
+    padding: 10px;
+  }
+
+  .processing-detail-panel {
+    max-height: calc(100vh - 20px);
+  }
+}
+
+@media (max-width: 600px) {
+  .ore-processing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   GRADE QUANTITY CHART
+   This is a distribution chart, not a progress indicator.
+========================================= */
+.processing-grade-chart {
+  margin-top: 16px;
+  padding-top: 8px;
+}
+
+.grade-chart-y-label {
+  margin-bottom: 8px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #98a2b3;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.processing-grade-columns {
+  min-height: 220px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: end;
+  gap: 10px;
+  padding: 10px 4px 0;
+  border-bottom: 1px solid #dfe4ea;
+  background-image: linear-gradient(to bottom, transparent 24%, #f1f3f5 25%, transparent 26%, transparent 49%, #f1f3f5 50%, transparent 51%, transparent 74%, #f1f3f5 75%, transparent 76%);
+}
+
+.processing-grade-column {
+  min-width: 0;
+  height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.processing-grade-quantity {
+  min-height: 26px;
+  margin-bottom: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #344054;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.processing-grade-bar-area {
+  width: 100%;
+  height: 145px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.processing-grade-column-bar {
+  width: min(42px, 70%);
+  min-height: 6px;
+  border-radius: 5px 5px 0 0;
+  background: #dc3545;
+  transition: height 180ms ease, opacity 180ms ease;
+}
+
+.processing-grade-column:hover .processing-grade-column-bar {
+  opacity: 0.82;
+}
+
+.processing-grade-range {
+  margin-top: 9px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #475467;
+  white-space: nowrap;
+}
+
+.processing-grade-share {
+  margin-top: 3px;
+  margin-bottom: 8px;
+  font-size: 9px;
+  color: #98a2b3;
+}
+
+@media (max-width: 700px) {
+  .processing-grade-columns {
+    gap: 6px;
+    min-height: 200px;
+  }
+
+  .processing-grade-column {
+    height: 190px;
+  }
+
+  .processing-grade-quantity {
+    font-size: 8px;
+  }
+
+  .processing-grade-range {
+    font-size: 9px;
+  }
+}

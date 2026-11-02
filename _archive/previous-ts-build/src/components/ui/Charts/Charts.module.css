@@ -1,0 +1,209 @@
+/* ---------- Shared ---------- */
+
+.track {
+  position: relative;
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bh-chart-track);
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--bh-chart-bar);
+  transition: width 300ms ease;
+}
+
+.fillCritical {
+  background: var(--bh-critical);
+}
+
+.empty {
+  margin: 0;
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-sm);
+}
+
+/* ---------- Grade chart ---------- */
+
+.chartCard {
+  margin: 0;
+  padding: var(--bh-space-4);
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+  background: var(--bh-surface);
+  min-width: 0;
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--bh-space-4);
+}
+
+.chartTitle {
+  font-weight: 700;
+}
+
+.chartTotal {
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 64px minmax(60px, 1fr) auto;
+  align-items: center;
+  gap: var(--bh-space-3);
+  font-size: var(--bh-text-sm);
+}
+
+.barLabel {
+  color: var(--bh-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.barValue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 84px;
+  font-variant-numeric: tabular-nums;
+}
+
+.barValue span {
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+.columns {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--bh-space-2);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--bh-space-1);
+  min-width: 0;
+  font-size: var(--bh-text-xs);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.columnValue {
+  font-weight: 600;
+}
+
+.columnArea {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-bottom: 1px solid var(--bh-border-strong);
+}
+
+.columnBar {
+  display: block;
+  width: min(36px, 70%);
+  border-radius: 4px 4px 0 0;
+  background: var(--bh-chart-bar);
+  transition: height 300ms ease;
+}
+
+.columnLabel {
+  color: var(--bh-text-muted);
+}
+
+.columnShare {
+  color: var(--bh-text-subtle);
+}
+
+/* ---------- Breakdown list ---------- */
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+  padding: var(--bh-space-4);
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+  background: var(--bh-surface);
+}
+
+.breakdownHeader h3 {
+  margin: 0;
+  font-size: var(--bh-text-md);
+}
+
+.breakdownHeader p {
+  margin: 2px 0 0;
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-xs);
+}
+
+.breakdownList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+}
+
+.breakdownItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdownTop {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--bh-space-3);
+  font-size: var(--bh-text-sm);
+}
+
+.breakdownFigures {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--bh-space-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.breakdownFigures span {
+  min-width: 36px;
+  text-align: right;
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+.breakdownTotal {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--bh-space-3);
+  border-top: 1px solid var(--bh-border);
+  font-size: var(--bh-text-sm);
+  font-variant-numeric: tabular-nums;
+}

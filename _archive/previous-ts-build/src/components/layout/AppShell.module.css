@@ -1,0 +1,347 @@
+.shell {
+  --bh-nav-width: 250px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.collapsed {
+  --bh-nav-width: 80px;
+}
+
+.skipLink {
+  position: absolute;
+  top: var(--bh-space-2);
+  left: var(--bh-space-2);
+  z-index: 2000;
+  padding: var(--bh-space-2) var(--bh-space-4);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-brand-strong);
+  color: var(--bh-on-brand);
+  font-weight: 700;
+  transform: translateY(-150%);
+}
+
+.skipLink:focus {
+  transform: none;
+}
+
+/* ---------- Header (portal: .app-header, z-index 1000) ---------- */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--bh-header-height);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bh-space-4);
+  padding: 0 var(--bh-space-5) 0 var(--bh-space-3);
+  border-bottom: 1px solid var(--bh-border);
+  background: var(--bh-surface);
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.08);
+}
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-3);
+  min-width: 0;
+}
+
+.menuToggle {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--bh-radius-sm);
+  background: none;
+  color: var(--bh-text-muted);
+  cursor: pointer;
+}
+
+.menuToggle:hover {
+  background: var(--bh-surface-sunken);
+  color: var(--bh-text);
+}
+
+.brand {
+  color: var(--bh-brand-strong);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.divider {
+  width: 1px;
+  height: 22px;
+  background: var(--bh-border-strong);
+}
+
+.module {
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-sm);
+  white-space: nowrap;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-5);
+}
+
+.roleSwitcher {
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-2);
+  padding: 4px 4px 4px 10px;
+  border: 1px dashed var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+}
+
+.roleSwitcher label {
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.roleSwitcher select {
+  height: 30px;
+  padding: 0 var(--bh-space-2);
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-sm);
+  background: var(--bh-surface);
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-2);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bh-brand-strong);
+  color: var(--bh-on-brand);
+  font-size: var(--bh-text-xs);
+  font-weight: 700;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.userInfo strong {
+  font-size: var(--bh-text-sm);
+}
+
+.userInfo span {
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+/* ---------- Body ---------- */
+
+.body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* Portal: antd Sider, 250px / 80px collapsed, z-index 999. */
+.sidebar {
+  position: sticky;
+  top: var(--bh-header-height);
+  z-index: 999;
+  align-self: flex-start;
+  width: var(--bh-nav-width);
+  height: calc(100vh - var(--bh-header-height));
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--bh-space-3) var(--bh-space-3);
+  border-right: 1px solid var(--bh-border);
+  background: var(--bh-surface);
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.08);
+  transition: width 200ms ease;
+}
+
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  overflow-x: visible;
+}
+
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-3);
+  min-height: 42px;
+  padding: 0 var(--bh-space-3);
+  border-radius: var(--bh-radius-sm);
+  color: var(--bh-text-muted);
+  font-size: var(--bh-text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navItem svg {
+  flex-shrink: 0;
+}
+
+.navItem:hover {
+  background: var(--bh-surface-sunken);
+  color: var(--bh-text);
+}
+
+.navItem[aria-current="page"] {
+  background: var(--bh-brand-soft);
+  color: var(--bh-brand-strong);
+}
+
+.navItem[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--bh-space-3));
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--bh-brand);
+}
+
+.collapsed .navItem {
+  justify-content: center;
+  padding: 0;
+}
+
+/* Collapsed: label stays for screen readers, the tooltip shows it visually. */
+.collapsed .navLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.tooltip {
+  position: fixed;
+  left: calc(var(--bh-nav-width) + 6px);
+  z-index: 1001;
+  padding: 6px 10px;
+  border-radius: var(--bh-radius-sm);
+  background: #1c2128;
+  color: #fff;
+  font-size: var(--bh-text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-4px);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.navItem:hover .tooltip,
+.navItem:focus-visible .tooltip {
+  opacity: 1;
+  transform: none;
+}
+
+.navNote {
+  margin: auto 0 0;
+  padding-top: var(--bh-space-3);
+  color: var(--bh-text-subtle);
+  font-size: 0.6875rem;
+  text-align: center;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--bh-space-5) var(--bh-space-6) 0;
+}
+
+/* Let page content shrink to the space beside the side nav. */
+.main > * {
+  min-width: 0;
+}
+
+.main:focus {
+  outline: none;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--bh-space-4);
+  margin-top: var(--bh-space-8);
+  padding: var(--bh-space-4) 0;
+  border-top: 1px solid var(--bh-border);
+  color: var(--bh-text-subtle);
+  font-size: var(--bh-text-xs);
+}
+
+/* ---------- Responsive (portal hides the Sider below lg = 992px) ---------- */
+
+@media (max-width: 991px) {
+  /* The portal hides the Sider below lg, so the toggle has nothing to do. */
+  .sidebar,
+  .menuToggle {
+    display: none;
+  }
+
+  .module,
+  .divider,
+  .userInfo {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 0 var(--bh-space-3);
+  }
+
+  .headerRight {
+    gap: var(--bh-space-2);
+  }
+
+  .roleSwitcher label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .main {
+    padding: var(--bh-space-4) var(--bh-space-4) 0;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: var(--bh-space-1);
+  }
+}

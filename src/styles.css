@@ -1,0 +1,444 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: #f5f6f8;
+  color: #212529;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+
+  padding: 22px 24px;
+
+  overflow-x: hidden;
+}
+
+/* Keep dashboard modules compact */
+
+.main-content > section {
+  width: 100%;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #f5f6f8;
+  color: #212529;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.app-shell {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.app-body {
+  flex: 1;
+  min-height: 0;
+
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+
+  padding: 22px 24px;
+
+  overflow-x: hidden;
+}
+
+.main-content > section {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
+}
+
+/* Dashboard grid responsiveness */
+@media (max-width: 1100px) {
+  .stock-summary-grid,
+  .ore-processing-grid,
+  .payment-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .stock-summary-grid,
+  .ore-processing-grid,
+  .payment-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Existing module detail shells now live inside the shared right drawer. */
+.stock-detail-header,
+.payment-detail-header,
+.processing-detail-header-legacy,
+.permit-modal-header,
+.operation-modal-header,
+.master-modal-header {
+  display: none;
+}
+
+.stock-detail-panel,
+.payment-detail-panel,
+.processing-detail-panel,
+.permit-modal-body,
+.operation-modal,
+.master-modal {
+  width: 100%;
+}
+
+/* Prevent legacy modal shells from applying fixed/centered positioning inside drawers. */
+.processing-detail-panel,
+.stock-detail-panel,
+.payment-detail-panel,
+.permit-modal-body,
+.operation-modal,
+.master-modal {
+  max-height: none !important;
+  width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .header-role-switcher {
+    gap: 4px;
+  }
+
+  .header-role-select {
+    height: 32px;
+    max-width: 125px;
+  }
+}
+
+/* =========================================================
+   One type scale for the whole dashboard.
+   Loaded after the section styles, so these sizes win.
+   ========================================================= */
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* Section titles and subtitles */
+.overview-header h2,
+.stock-summary-header h2,
+.ore-processing-header h2,
+.payment-summary-header h2,
+.alert-activity-header h2,
+.dumps-summary-section .section-header h2,
+.permit-section .section-header h2,
+.operations-section .section-header h2,
+.master-data-section .section-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.overview-header p,
+.stock-summary-header p,
+.ore-processing-header p,
+.payment-summary-header p,
+.alert-activity-header p,
+.dumps-summary-section .section-header p,
+.permit-section .section-header p,
+.operations-section .section-header p,
+.master-data-section .section-header p {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* Card titles */
+.overview-card-label,
+.stock-card-label,
+.processing-card-label,
+.dump-card-top,
+.payment-card-title,
+.permit-card-title,
+.ops-stat-title,
+.md-stat-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Card headline figures */
+.overview-card-value,
+.stock-card-value,
+.processing-card-total,
+.dump-card-value,
+.payment-card-amount,
+.permit-card-count,
+.ops-stat-body strong,
+.md-stat-body strong,
+.flow-stage-value {
+  font-weight: 600;
+}
+
+.overview-card-value,
+.stock-card-value,
+.processing-card-total,
+.dump-card-value,
+.payment-card-amount,
+.permit-card-count,
+.ops-stat-body strong,
+.md-stat-body strong {
+  font-size: 22px;
+  line-height: 1.15;
+  color: #212529;
+}
+
+/* Card supporting text */
+.overview-card-hint,
+.overview-card-note,
+.stock-card-description,
+.dump-card-label,
+.payment-card-description,
+.permit-card-label,
+.ops-stat-hint,
+.md-stat-hint {
+  font-size: 11px;
+}
+
+/* Card rows (material, status, breakdown) */
+.overview-card-list li,
+.material-row-label,
+.material-row-value,
+.dump-card-row,
+.permit-status-row {
+  font-size: 12px;
+}
+
+/* Chart cards */
+.chart-card-header h3,
+.md-table-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.chart-card-header span,
+.chart-card-footer,
+.chart-card-legend {
+  font-size: 11px;
+}
+
+/* Nothing smaller than 11px */
+.filter-field label,
+.view-only-label,
+.panel-header span:not(.panel-count):not(.activity-live),
+.panel-count,
+.activity-title-row span,
+.material-grade-count,
+.header-role-label,
+.header-role-switcher-label,
+.header-user-info span,
+.filter-eyebrow,
+.processing-flag,
+.processing-view-only,
+.payment-card-rate,
+.grade-grid thead th span,
+.alert-title-row span,
+.alert-content p,
+.activity-content p,
+.activity-live,
+.panel-view-all,
+.payment-matrix tfoot td span {
+  font-size: 11px;
+}
+
+/* Figures and labels: semi-bold (lightly bold), never heavy bold. */
+.main-content strong,
+.main-content b,
+.main-content table thead th,
+.main-content table tbody th,
+.main-content table tfoot th,
+.main-content table tfoot td,
+.md-name,
+.permit-status-row span,
+.dump-card-row span,
+.material-row-label,
+.material-row-value,
+.section-period-chip,
+.overview-popover-title,
+.chart-card-header h3,
+.md-table-header h3 {
+  font-weight: 600;
+}
+
+.main-content table tbody td {
+  font-weight: 400;
+}
+
+/* =========================================================
+   Hover pop-ups: every card pop-up looks like the Overview one
+   (same width, pink border, arrow pointing at the card).
+   ========================================================= */
+
+.ops-stat-pop,
+.md-stat-pop {
+  width: max(100%, 220px);
+  border: 1px solid #ffd6d8;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(33, 37, 41, 0.16);
+  transform: translateY(-6px) scale(0.92);
+  transform-origin: top left;
+  transition: opacity 0.18s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.18s;
+}
+
+.ops-stat:hover .ops-stat-pop,
+.ops-stat:focus .ops-stat-pop,
+.md-stat:hover .md-stat-pop,
+.md-stat:focus .md-stat-pop {
+  transform: none;
+}
+
+.ops-stat-pop::before,
+.md-stat-pop::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 22px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid #ffd6d8;
+  border-left: 1px solid #ffd6d8;
+  background: #ffffff;
+  transform: rotate(45deg);
+}
+
+.ops-stat:nth-child(4) .ops-stat-pop,
+.md-stat:nth-child(4) .md-stat-pop {
+  transform-origin: top right;
+}
+
+.ops-stat:nth-child(4) .ops-stat-pop::before,
+.md-stat:nth-child(4) .md-stat-pop::before {
+  left: auto;
+  right: 22px;
+}
+
+.ops-stat-pop ul,
+.md-stat-pop ul {
+  padding-top: 8px;
+  border-top: 1px dashed #f1d4d6;
+}
+
+.ops-stat-pop li > span,
+.md-stat-pop li > span {
+  color: #6c757d;
+}
+
+.ops-stat-pop li > span::before,
+.md-stat-pop li > span:not(:has(.dot))::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #ff6b72;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* The bubble pop-up opens above, so its arrow points down. */
+.dump-bubble-pop {
+  border-color: #ffd6d8;
+}
+
+.dump-bubble-pop::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-right: 1px solid #ffd6d8;
+  border-bottom: 1px solid #ffd6d8;
+  background: #ffffff;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 1100px) {
+  .ops-stat:nth-child(2) .ops-stat-pop::before,
+  .md-stat:nth-child(2) .md-stat-pop::before {
+    left: auto;
+    right: 22px;
+  }
+}
+
+/* Tables, totals and small headings: no heavy bold anywhere. */
+.main-content table td {
+  font-weight: 400 !important;
+}
+
+.main-content table th,
+.main-content table tfoot td,
+.main-content table td.total {
+  font-weight: 600 !important;
+}
+
+.main-content h1,
+.main-content dd,
+.processing-total-value,
+.output-sources-title,
+.quality-sources-title,
+.processing-flag,
+.filter-eyebrow,
+.grade-grid thead th span,
+.output-strip span,
+.attention-count,
+.panel-count,
+.activity-live {
+  font-weight: 600;
+}

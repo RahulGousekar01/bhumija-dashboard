@@ -1,0 +1,196 @@
+/* =========================================
+   Annual Dump Allotment by Party (bubbles)
+========================================= */
+
+.dump-bubbles {
+  flex: 1;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dump-bubble {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #5c1418;
+  text-align: center;
+  cursor: default;
+  transition: transform 0.15s ease;
+}
+
+.dump-bubble:hover,
+.dump-bubble:focus-visible {
+  z-index: 2;
+  transform: scale(1.05);
+  outline: none;
+}
+
+.dump-bubble:focus-visible {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #c92a2a;
+}
+
+.dump-bubble-name {
+  max-width: 76%;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.dump-bubble strong {
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.dump-bubble-pop {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 3;
+  width: 180px;
+  padding: 10px 12px;
+  border: 1px solid #e2e5e9;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #495057;
+  font-size: 11.5px;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+.dump-bubble:hover .dump-bubble-pop,
+.dump-bubble:focus .dump-bubble-pop {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.dump-bubble-pop b {
+  color: #212529;
+  font-size: 12px;
+}
+
+.dump-bubble-pop span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.dump-bubble-pop em {
+  font-style: normal;
+  font-weight: 600;
+  color: #212529;
+}
+
+/* =========================================
+   Extracted vs Transported (unit grid)
+========================================= */
+
+.unit-chart {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 170px;
+  align-items: center;
+  gap: 20px;
+}
+
+.unit-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 5px;
+  max-width: 300px;
+}
+
+.unit-grid i {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: #e9ecef;
+}
+
+.unit-grid i.moved {
+  background: #4dabf7;
+}
+
+.unit-stats {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.unit-stats div {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.unit-stats div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.unit-stats dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.unit-stats dd {
+  margin: 2px 0 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #212529;
+}
+
+.unit-key {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: #e9ecef;
+}
+
+.unit-key.moved {
+  background: #4dabf7;
+}
+
+/* Stack the grid above the figures when the card itself is narrow. */
+.unit-card {
+  container-type: inline-size;
+}
+
+@container (max-width: 440px) {
+  .unit-chart {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .unit-grid {
+    max-width: none;
+  }
+
+  .unit-stats {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .unit-stats div {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+}

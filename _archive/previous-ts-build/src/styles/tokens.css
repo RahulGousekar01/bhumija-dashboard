@@ -1,0 +1,89 @@
+/*
+ * Design tokens (light mode only). Every component reads colour, spacing and
+ * type from here, so the host application can re-theme the dashboard by
+ * overriding these custom properties on `.bh-dashboard` (or :root).
+ *
+ * Primary #FF6B72 is 2.8:1 on white, so it is used for fills, chart focal
+ * points and indicators only. Text, links, focus rings and button fills use
+ * --bh-brand-strong (#C93A43, 5.0:1).
+ */
+
+:root {
+  /* Brand */
+  --bh-brand: #ff6b72;
+  --bh-brand-strong: #c93a43;
+  --bh-brand-hover: #b0303a;
+  --bh-brand-soft: #fff0f1;
+  --bh-brand-muted: #ffd6d8;
+  --bh-on-brand: #ffffff;
+
+  /* Surfaces */
+  --bh-bg: #f7f8fa;
+  --bh-surface: #ffffff;
+  --bh-surface-muted: #fafbfc;
+  --bh-surface-sunken: #f1f3f6;
+  --bh-border: #e6e8ec;
+  --bh-border-strong: #d3d7de;
+
+  /* Text (all pass WCAG AA on white) */
+  --bh-text: #1c2128;
+  --bh-text-muted: #525b67;
+  --bh-text-subtle: #66707d;
+
+  /* Status */
+  --bh-critical: #c4262e;
+  --bh-critical-soft: #fdecec;
+  --bh-warning: #9a5a06;
+  --bh-warning-soft: #fdf3e1;
+  --bh-info: #2f5fa8;
+  --bh-info-soft: #eaf1fb;
+  --bh-success: #1b7a47;
+  --bh-success-soft: #e5f5ec;
+
+  /* Charts: primary is the focal series, slates support it */
+  --bh-chart-1: #ff6b72;
+  --bh-chart-2: #64748b;
+  --bh-chart-3: #ffb3b6;
+  --bh-chart-4: #a7b3c2;
+  --bh-chart-5: #334155;
+  --bh-chart-6: #d9dee5;
+  --bh-chart-bar: var(--bh-chart-1);
+  --bh-chart-track: #f1f3f6;
+  --bh-chart-grid: #eceef2;
+
+  /* Focus */
+  --bh-focus-ring: 0 0 0 3px rgba(201, 58, 67, 0.3);
+
+  /* Type */
+  --bh-font: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --bh-text-xs: 0.75rem;
+  --bh-text-sm: 0.8125rem;
+  --bh-text-md: 0.875rem;
+  --bh-text-lg: 1.0625rem;
+  --bh-text-xl: 1.375rem;
+  --bh-text-2xl: 1.625rem;
+
+  /* Space (4px scale) */
+  --bh-space-1: 4px;
+  --bh-space-2: 8px;
+  --bh-space-3: 12px;
+  --bh-space-4: 16px;
+  --bh-space-5: 20px;
+  --bh-space-6: 24px;
+  --bh-space-8: 32px;
+
+  /* Shape & depth */
+  --bh-radius-sm: 6px;
+  --bh-radius-md: 10px;
+  --bh-radius-lg: 14px;
+  --bh-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --bh-shadow-md: 0 4px 14px rgba(16, 24, 40, 0.07);
+  --bh-shadow-lg: 0 18px 48px rgba(16, 24, 40, 0.16);
+
+  --bh-header-height: 64px;
+  --bh-sidebar-width: 76px;
+  --bh-transition: 160ms ease;
+
+  color-scheme: light;
+}
