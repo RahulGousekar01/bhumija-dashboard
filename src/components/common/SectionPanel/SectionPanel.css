@@ -1,0 +1,83 @@
+/* Every collapsible section sits in its own panel. */
+.dash-panel {
+  padding: 16px 18px 18px;
+  border: 1px solid #e2e5e9;
+  border-radius: 12px;
+  background: #fbfbfc;
+}
+
+.dash-panel.collapsed {
+  padding-bottom: 16px;
+}
+
+/* Header row of a panel: title block on the left, controls and the toggle on the right. */
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+
+.panel-head > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.panel-head-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: none;
+}
+
+/* Period chip and party tag sit beside the controls, using the space next to the title. */
+.panel-head-actions .period-chip,
+.panel-head-actions .section-period-chip,
+.panel-head-actions .party-tag {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.dash-panel.collapsed .panel-head {
+  margin-bottom: 0 !important;
+}
+
+.panel-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #495057;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.panel-toggle.open {
+  transform: rotate(180deg);
+}
+
+.panel-toggle:hover {
+  border-color: #ff6b72;
+  color: #c92a2a;
+}
+
+.panel-toggle:focus-visible {
+  outline: 2px solid #c92a2a;
+  outline-offset: 2px;
+}
+
+@media (max-width: 1100px) {
+  .panel-head {
+    flex-wrap: wrap;
+  }
+
+  .panel-head-actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+}

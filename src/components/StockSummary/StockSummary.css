@@ -33,7 +33,7 @@
 
 .stock-summary-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -211,14 +211,15 @@
      VIEW CONTROLS
   ========================================= */
 
+/* View buttons on top, the "how to read" note in its own box below. */
 .stock-view-controls {
   padding: 16px 22px;
   background: #fafafa;
   border-bottom: 1px solid #e9ecef;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .stock-view-switch {
@@ -255,18 +256,20 @@
   box-shadow: 0 1px 4px rgba(33, 37, 41, 0.1);
 }
 
+/* Note box: warm white with an amber edge. */
 .stock-info-note {
+  align-self: stretch;
   display: flex;
   align-items: flex-start;
-  gap: 9px;
-  max-width: 440px;
-  padding: 9px 11px;
-  border: 1px solid #e9ecef;
-  border-radius: 7px;
-  background: #ffffff;
-  color: #6c757d;
-  font-size: 10px;
-  line-height: 1.45;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #f3e3c3;
+  border-left: 3px solid #f59f00;
+  border-radius: 0 8px 8px 0;
+  background: #fffaf0;
+  color: #5c4813;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .stock-info-note > div {
@@ -276,22 +279,24 @@
 }
 
 .stock-info-note strong {
-  color: #495057;
-  font-size: 10px;
-  font-weight: 650;
+  color: #3d2f08;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .stock-info-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #fff1f2;
-  color: #dc3545;
-  font-size: 10px;
-  font-weight: 700;
+  background: #ffe8b3;
+  color: #8a5a00;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: italic;
+  font-family: Georgia, serif;
   flex-shrink: 0;
 }
 
@@ -520,5 +525,70 @@
 
   .grade-chart-track {
     height: 14px;
+  }
+}
+
+/* Dumps drawer */
+
+.material-summary-grid.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.geofence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.geofence-card {
+  padding: 14px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.geofence-card span {
+  display: block;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.geofence-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 18px;
+  color: #212529;
+}
+
+.geofence-bar {
+  height: 6px;
+  margin-top: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #e9ecef;
+}
+
+.geofence-bar span {
+  height: 100%;
+  background: #ff6b72;
+}
+
+.geofence-card small {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #868e96;
+}
+
+@media (max-width: 1200px) and (min-width: 1001px) {
+  .stock-summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .material-summary-grid.four,
+  .geofence-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

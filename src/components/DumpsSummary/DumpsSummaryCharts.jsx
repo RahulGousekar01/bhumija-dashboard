@@ -1,140 +1,157 @@
 import React from "react";
+import { Bar, BarChart, CartesianGrid, Cell, LabelList, Tooltip, XAxis, YAxis } from "recharts";
 import { useDashboard } from "../../context/DashboardContext";
-import { formatMT } from "../common/ChartCard/chartTheme";
+import ChartCard from "../common/ChartCard/ChartCard";
+import { AXIS_TICK, CHART_COLORS, TOOLTIP_STYLE, formatCompact, formatMT } from "../common/ChartCard/chartTheme";
 import { dumpData } from "./DumpsSummary";
-import "./DumpsSummaryCharts.css";
 
 const shortName = (party) => party.replace(" Pvt Ltd", "");
-const formatMillion = (value) => `${(value / 1000000).toFixed(1)} M MT`;
-const share = (value, total) => (total > 0 ? Math.round((value / total) * 100) : 0);
+const formatMillion = (value) => `${(value / 1000000).toFixed(1)} M`;
+const rowHeight = (rows) => Math.max(rows * 48 + 40, 160);
+const VALUE_LABEL = { fontSize: 11, fill: "#495057" };
 
-// Largest party gets the darkest shade.
-const BUBBLE_SHADES = ["#ff6b72", "#ff8a8f", "#ffa8ac", "#ffc9cc", "#ffe3e5"];
-const BUBBLE_MAX = 132;
+/**
+ * Charts under the Dumps Summary cards: plain horizontal bars.
+ * All parties: one row per party. One party (a Party user, or a Super Admin
+ * filtering on a party): that party's own allotment and material.
+ */
+function DumpsSummaryCharts({ scopeParty, processed }) {
+  return scopeParty ? (
+    <PartyCharts party={scopeParty} processed={processed} />
+  ) : (
+    <AllPartiesCharts />
+  );
+}
 
-// Tonnes per square, so the grid stays around 50 squares.
-const UNIT_STEPS = [100, 250, 500, 1000, 2500, 5000, 10000, 25000];
-const pickUnit = (total) => UNIT_STEPS.find((step) => total / step <= 60) ?? UNIT_STEPS[UNIT_STEPS.length - 1];
+/* ---------- All parties (Super Admin) ---------- */
 
-/** Charts under the Dumps Summary cards. */
-function DumpsSummaryCharts() {
-  const { isParty } = useDashboard();
+function AllPartiesCharts() {
+  const allotment = dumpData.annualTotal.allocation
+    .map((row) => ({
+      name: shortName(row.party),
+      Allocation: row.allocated,
+      eAuction: dumpData.annualTotal.eauction.find((item) => item.party === row.party)?.allocated ?? 0,
+    }))
+    .map((row) => ({ ...row, total: row.Allocation + row.eAuction }))
+    .sort((a, b) => b.total - a.total);
 
-  // A Party sees only its own row (as in the cards).
-  const extractionRows = isParty ? dumpData.extracted.parties.slice(0, 1) : dumpData.extracted.parties;
+  const extraction = dumpData.extracted.parties.map((row) => ({
+    name: shortName(row.party),
+    Extracted: row.extracted,
+    Transported: row.transported,
+  }));
 
   return (
     <div className="section-charts">
-      <AllotmentBubbles />
-      <ExtractionGrid rows={extractionRows} />
+      <ChartCard
+        title="Annual Dump Allotment to Party"
+        subtitle="Allocation and eAuction (MT)"
+        height={rowHeight(allotment.length)}
+        legend={[
+          { label: "Allocation", color: CHART_COLORS.primary },
+          { label: "eAuction", color: CHART_COLORS.blue },
+        ]}
+      >
+        <BarChart data={allotment} layout="vertical" margin={{ top: 4, right: 56, left: 4, bottom: 0 }}>
+          <CartesianGrid horizontal={false} stroke="#f1f3f5" />
+          <XAxis type="number" tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={formatCompact} />
+          <YAxis type="category" dataKey="name" tick={AXIS_TICK} tickLine={false} axisLine={false} width={110} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value) => formatMT(value)} cursor={{ fill: "#fff5f5" }} />
+          <Bar dataKey="Allocation" stackId="dump" fill={CHART_COLORS.primary} maxBarSize={22} />
+          <Bar dataKey="eAuction" stackId="dump" fill={CHART_COLORS.blue} radius={[0, 4, 4, 0]} maxBarSize={22}>
+            <LabelList dataKey="total" position="right" formatter={formatMillion} style={VALUE_LABEL} />
+          </Bar>
+        </BarChart>
+      </ChartCard>
+
+      <ChartCard
+        title="Extracted vs Transported"
+        subtitle="Within geofence (MT)"
+        height={rowHeight(extraction.length)}
+        legend={[
+          { label: "Extracted", color: CHART_COLORS.primary },
+          { label: "Transported", color: CHART_COLORS.green },
+        ]}
+      >
+        <BarChart data={extraction} layout="vertical" margin={{ top: 4, right: 56, left: 4, bottom: 0 }}>
+          <CartesianGrid horizontal={false} stroke="#f1f3f5" />
+          <XAxis type="number" tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={formatCompact} />
+          <YAxis type="category" dataKey="name" tick={AXIS_TICK} tickLine={false} axisLine={false} width={110} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value) => formatMT(value)} cursor={{ fill: "#fff5f5" }} />
+          <Bar dataKey="Extracted" fill={CHART_COLORS.primary} radius={[0, 4, 4, 0]} maxBarSize={14}>
+            <LabelList dataKey="Extracted" position="right" formatter={formatCompact} style={VALUE_LABEL} />
+          </Bar>
+          <Bar dataKey="Transported" fill={CHART_COLORS.green} radius={[0, 4, 4, 0]} maxBarSize={14}>
+            <LabelList dataKey="Transported" position="right" formatter={formatCompact} style={VALUE_LABEL} />
+          </Bar>
+        </BarChart>
+      </ChartCard>
     </div>
   );
 }
 
-/* =========================================
-   1. Annual dump allotment by party
-========================================= */
+/* ---------- One party ---------- */
 
-function AllotmentBubbles() {
-  const parties = dumpData.annualTotal.allocation
-    .map((row) => {
-      const eauction = dumpData.annualTotal.eauction.find((item) => item.party === row.party)?.allocated ?? 0;
-      return { party: row.party, allocation: row.allocated, eauction, total: row.allocated + eauction };
-    })
-    .sort((a, b) => b.total - a.total);
+function PartyCharts({ party, processed }) {
+  const { isParty } = useDashboard();
+  const allocation = dumpData.annualTotal.allocation.find((row) => row.party === party)?.allocated ?? 0;
+  const eauction = dumpData.annualTotal.eauction.find((row) => row.party === party)?.allocated ?? 0;
+  const extracted = dumpData.extracted.parties.find((row) => row.party === party) ?? { extracted: 0, transported: 0 };
+  const waste = dumpData.waste.find((row) => row.party === party)?.waste ?? 0;
 
-  const grandTotal = parties.reduce((sum, row) => sum + row.total, 0);
-  const allocationTotal = parties.reduce((sum, row) => sum + row.allocation, 0);
-  const largest = parties[0]?.total ?? 0;
+  const allotment = [
+    { name: "Allocation", value: allocation, color: CHART_COLORS.primary },
+    { name: "eAuction", value: eauction, color: CHART_COLORS.blue },
+  ];
 
-  return (
-    <div className="chart-card">
-      <div className="chart-card-header">
-        <h3>Annual Dump Allotment by Party</h3>
-        <span>Total {formatMillion(grandTotal)}</span>
-      </div>
-
-      <ul className="dump-bubbles">
-        {parties.map((row, index) => {
-          // Area, not diameter, follows the allotment.
-          const size = Math.round(BUBBLE_MAX * Math.sqrt(row.total / largest));
-          return (
-            <li
-              key={row.party}
-              className="dump-bubble"
-              tabIndex={0}
-              style={{ width: size, height: size, background: BUBBLE_SHADES[index] ?? BUBBLE_SHADES[4] }}
-            >
-              <span className="dump-bubble-name">{shortName(row.party)}</span>
-              <strong>{(row.total / 1000000).toFixed(1)} M</strong>
-
-              <div className="dump-bubble-pop" role="tooltip">
-                <b>{row.party}</b>
-                <span>Allocation <em>{formatMillion(row.allocation)}</em></span>
-                <span>eAuction <em>{formatMillion(row.eauction)}</em></span>
-                <span>Share <em>{share(row.total, grandTotal)}%</em></span>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-
-      <div className="chart-card-footer">
-        Bubble size shows each party's allotment. Allocation {formatMillion(allocationTotal)} · eAuction{" "}
-        {formatMillion(grandTotal - allocationTotal)}.
-      </div>
-    </div>
-  );
-}
-
-/* =========================================
-   2. Extracted vs transported
-========================================= */
-
-function ExtractionGrid({ rows }) {
-  const extracted = rows.reduce((sum, row) => sum + row.extracted, 0);
-  const transported = rows.reduce((sum, row) => sum + row.transported, 0);
-  const inGeofence = Math.max(extracted - transported, 0);
-
-  const unit = pickUnit(extracted);
-  const cells = Math.round(extracted / unit);
-  const movedCells = Math.round(transported / unit);
+  // What happened to the dump material this party extracted.
+  const material = [
+    { name: "Extracted", value: extracted.extracted, color: CHART_COLORS.primary },
+    { name: "Processed", value: processed, color: CHART_COLORS.fines },
+    { name: "Transported", value: extracted.transported, color: CHART_COLORS.green },
+    { name: "Within geofence", value: Math.max(extracted.extracted - extracted.transported, 0), color: CHART_COLORS.rom },
+    { name: "Waste", value: waste, color: CHART_COLORS.grey },
+  ];
 
   return (
-    <div className="chart-card unit-card">
-      <div className="chart-card-header">
-        <h3>Extracted vs Transported</h3>
-        <span>{share(transported, extracted)}% moved out of the dump</span>
-      </div>
+    <div className="section-charts">
+      <ChartCard
+        title="Annual Dump Allotment"
+        subtitle={`${shortName(party)} · ${formatMillion(allocation + eauction)} MT in total`}
+        height={rowHeight(allotment.length)}
+      >
+        <BarChart data={allotment} layout="vertical" margin={{ top: 4, right: 56, left: 4, bottom: 0 }}>
+          <CartesianGrid horizontal={false} stroke="#f1f3f5" />
+          <XAxis type="number" tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={formatCompact} />
+          <YAxis type="category" dataKey="name" tick={AXIS_TICK} tickLine={false} axisLine={false} width={110} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value) => formatMT(value)} cursor={{ fill: "#fff5f5" }} />
+          <Bar dataKey="value" name="Allotted" radius={[0, 4, 4, 0]} maxBarSize={22}>
+            {allotment.map((row) => (
+              <Cell key={row.name} fill={row.color} />
+            ))}
+            <LabelList dataKey="value" position="right" formatter={formatMillion} style={VALUE_LABEL} />
+          </Bar>
+        </BarChart>
+      </ChartCard>
 
-      <div className="unit-chart">
-        <div
-          className="unit-grid"
-          role="img"
-          aria-label={`${formatMT(transported)} transported of ${formatMT(extracted)} extracted`}
-        >
-          {Array.from({ length: cells }, (_, index) => (
-            <i key={index} className={index < movedCells ? "moved" : undefined} />
-          ))}
-        </div>
-
-        <dl className="unit-stats">
-          <div>
-            <dt>Extracted</dt>
-            <dd>{formatMT(extracted)}</dd>
-          </div>
-          <div>
-            <dt><i className="unit-key moved" aria-hidden="true" />Transported</dt>
-            <dd>{formatMT(transported)}</dd>
-          </div>
-          <div>
-            <dt><i className="unit-key" aria-hidden="true" />In geofence</dt>
-            <dd>{formatMT(inGeofence)}</dd>
-          </div>
-        </dl>
-      </div>
-
-      <div className="chart-card-footer">Each square is {unit.toLocaleString("en-IN")} MT.</div>
+      <ChartCard
+        title={isParty ? "Your Dump Material" : `Dump Material · ${shortName(party)}`}
+        subtitle="Extracted, processed, transported, still within geofence and waste (MT)"
+        height={rowHeight(material.length)}
+      >
+        <BarChart data={material} layout="vertical" margin={{ top: 4, right: 56, left: 4, bottom: 0 }}>
+          <CartesianGrid horizontal={false} stroke="#f1f3f5" />
+          <XAxis type="number" tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={formatCompact} />
+          <YAxis type="category" dataKey="name" tick={AXIS_TICK} tickLine={false} axisLine={false} width={110} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value) => formatMT(value)} cursor={{ fill: "#fff5f5" }} />
+          <Bar dataKey="value" name="Quantity" radius={[0, 4, 4, 0]} maxBarSize={18}>
+            {material.map((row) => (
+              <Cell key={row.name} fill={row.color} />
+            ))}
+            <LabelList dataKey="value" position="right" formatter={formatCompact} style={VALUE_LABEL} />
+          </Bar>
+        </BarChart>
+      </ChartCard>
     </div>
   );
 }

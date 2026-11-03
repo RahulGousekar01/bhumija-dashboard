@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import CollapseButton, { useCollapsible } from "../common/SectionPanel/SectionPanel";
 import { useDashboard } from "../../context/DashboardContext";
 import { dayLabel } from "../../context/period";
 import DetailDrawer from "../common/DetailDrawer/DetailDrawer";
 import { BreakdownList } from "../DashboardOverview/OverviewParts";
+import { PartyTag } from "../common/PeriodChip/PeriodChip";
 import SectionPeriodFilter, { SectionPeriodChip, useSectionPeriod } from "../common/SectionPeriod/SectionPeriod";
 import { dailyValues, rangeFactor } from "../DashboardOverview/overviewData";
 import "./PermitOverview.css";
@@ -183,16 +185,25 @@ function PermitOverview() {
   const closeDetails = () => setSelectedIndex(null);
   const step = (offset) => setSelectedIndex((index) => (index + offset + permitData.length) % permitData.length);
 
+  const collapse = useCollapsible(false);
+
   return (
-    <section className="permit-section">
-      <div className="section-header section-head-period">
+    <section className={`permit-section dash-panel${collapse.open ? "" : " collapsed"}`}>
+      <div className="section-header section-head-period panel-head">
         <div>
           <h2>Permit Overview</h2>
           <p>Permit applications received in the period, by type</p>
-          <SectionPeriodChip control={periodControl} />
         </div>
-        <SectionPeriodFilter control={periodControl} label="Permit period" />
+        <div className="panel-head-actions">
+          <SectionPeriodChip control={periodControl} />
+          <PartyTag />
+          <SectionPeriodFilter control={periodControl} label="Permit period" />
+          <CollapseButton collapse={collapse} label="Permit Overview" />
+        </div>
       </div>
+
+      {collapse.open && (
+        <>
 
       {/* Main Permit Cards */}
       <div className="permit-grid">
@@ -249,6 +260,8 @@ function PermitOverview() {
         >
           <PermitDetail permit={selectedPermit} totalPermits={totalPermits} period={period} />
         </DetailDrawer>
+      )}
+        </>
       )}
     </section>
   );

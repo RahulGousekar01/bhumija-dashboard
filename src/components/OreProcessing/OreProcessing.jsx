@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import CollapseButton, { useCollapsible } from "../common/SectionPanel/SectionPanel";
 import DetailDrawer from "../common/DetailDrawer/DetailDrawer";
-import PeriodChip from "../common/PeriodChip/PeriodChip";
+import PeriodChip, { PartyTag } from "../common/PeriodChip/PeriodChip";
 import "./OreProcessing.css";
 import OreProcessingCharts from "./OreProcessingCharts";
 
@@ -77,7 +78,7 @@ export const processingData = {
     key: "royaltySecondary",
     title: "Royalty Paid",
     total: 18700,
-    flag: "NON PRIMARY",
+    flag: "SECONDARY",
 
     rom: 3100,
 
@@ -130,19 +131,28 @@ function OreProcessing() {
     setSelectedSource(null);
   };
 
+  const collapse = useCollapsible(false);
+
   return (
-    <section className="ore-processing">
+    <section className={`ore-processing dash-panel${collapse.open ? "" : " collapsed"}`}>
       {/* =========================
           SECTION HEADER
       ========================= */}
 
-      <div className="ore-processing-header">
+      <div className="ore-processing-header panel-head">
         <div>
           <h2>Ore Processing</h2>
           <p>Processed stock by source and material type</p>
+        </div>
+        <div className="panel-head-actions">
           <PeriodChip />
+          <PartyTag />
+          <CollapseButton collapse={collapse} label="Ore Processing" />
         </div>
       </div>
+
+      {collapse.open && (
+        <>
 
       {/* =========================
           FOUR MAIN CARDS
@@ -243,6 +253,8 @@ function OreProcessing() {
 
       {selectedSource && (
         <ProcessingDetailView source={selectedSource} onClose={closeDetails} />
+      )}
+        </>
       )}
     </section>
   );

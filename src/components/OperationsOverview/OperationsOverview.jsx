@@ -1,4 +1,6 @@
 import React from "react";
+import CollapseButton, { useCollapsible } from "../common/SectionPanel/SectionPanel";
+import { PartyTag } from "../common/PeriodChip/PeriodChip";
 import SectionPeriodFilter, { SectionPeriodChip, useSectionPeriod } from "../common/SectionPeriod/SectionPeriod";
 import { Icon } from "../DashboardOverview/OverviewParts";
 import { rangeFactor } from "../DashboardOverview/overviewData";
@@ -156,16 +158,25 @@ function OperationsOverview() {
     },
   ];
 
+  const collapse = useCollapsible(false);
+
   return (
-    <section className="operations-section">
-      <div className="section-header section-head-period">
+    <section className={`operations-section dash-panel${collapse.open ? "" : " collapsed"}`}>
+      <div className="section-header section-head-period panel-head">
         <div>
           <h2>Operations Overview</h2>
           <p>Permits and trips for the selected period</p>
-          <SectionPeriodChip control={periodControl} />
         </div>
-        <SectionPeriodFilter control={periodControl} label="Operations period" />
+        <div className="panel-head-actions">
+          <SectionPeriodChip control={periodControl} />
+          <PartyTag />
+          <SectionPeriodFilter control={periodControl} label="Operations period" />
+          <CollapseButton collapse={collapse} label="Operations Overview" />
+        </div>
       </div>
+
+      {collapse.open && (
+        <>
 
       <div className="ops-board">
         <div className="ops-stats">
@@ -201,6 +212,8 @@ function OperationsOverview() {
           ))}
         </div>
       </div>
+        </>
+      )}
     </section>
   );
 }

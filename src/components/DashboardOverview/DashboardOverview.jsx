@@ -5,6 +5,7 @@ import { stockData } from "../StockSummary/StockSummary";
 import { processingData } from "../OreProcessing/OreProcessing";
 import { permitData, permitsForPeriod } from "../PermitOverview/PermitOverview";
 import { activePermitsFor, operationsData } from "../OperationsOverview/OperationsOverview";
+import { PartyTag } from "../common/PeriodChip/PeriodChip";
 import SectionPeriodFilter, { SectionPeriodChip, useSectionPeriod } from "../common/SectionPeriod/SectionPeriod";
 import { paymentData } from "../PaymentSummary/PaymentSummary";
 import OreFlow from "./OreFlow";
@@ -159,13 +160,16 @@ function DashboardOverview() {
 
   return (
     <section className="dashboard-overview" aria-labelledby="overview-heading">
-      <div className="overview-header section-head-period">
+      <div className="overview-header section-head-period panel-head">
         <div>
           <h2 id="overview-heading">Overview</h2>
           <p>Figures are consolidated once a day and show data up to yesterday (T-1). Today's activity appears tomorrow.</p>
-          <SectionPeriodChip control={periodControl} />
         </div>
-        <SectionPeriodFilter control={periodControl} label="Overview period" />
+        <div className="panel-head-actions">
+          <SectionPeriodChip control={periodControl} />
+          <PartyTag />
+          <SectionPeriodFilter control={periodControl} label="Overview period" />
+        </div>
       </div>
 
       <div className="overview-cards">
@@ -188,15 +192,18 @@ function DashboardOverview() {
 
       <OreFlow range={period} periodLabel={`${period.title}, ${period.range}`} />
 
-      <div className="section-charts single">
-        <ActivityTrend
-          yesterday={yesterday.date}
-          permitsYesterday={permitsGenerated}
-          days={Math.min(Math.max(period.days, 7), 30)}
-          toDaysAgo={period.toDaysAgo}
-          lastLabel={period.toDaysAgo === 1 ? "Yesterday" : "Last day"}
-        />
-      </div>
+      {/* Daily chart only for periods of 30 days or less. */}
+      {period.days <= 30 && (
+        <div className="section-charts single">
+          <ActivityTrend
+            yesterday={yesterday.date}
+            permitsYesterday={permitsGenerated}
+            days={Math.min(Math.max(period.days, 7), 30)}
+            toDaysAgo={period.toDaysAgo}
+            lastLabel={period.toDaysAgo === 1 ? "Yesterday" : "Last day"}
+          />
+        </div>
+      )}
     </section>
   );
 }

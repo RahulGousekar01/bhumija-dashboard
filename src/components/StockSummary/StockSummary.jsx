@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
+import CollapseButton, { useCollapsible } from "../common/SectionPanel/SectionPanel";
 import DetailDrawer from "../common/DetailDrawer/DetailDrawer";
-import PeriodChip from "../common/PeriodChip/PeriodChip";
+import PeriodChip, { PartyTag } from "../common/PeriodChip/PeriodChip";
 import "./StockSummary.css";
 import StockSummaryCharts from "./StockSummaryCharts";
 
@@ -94,6 +95,29 @@ export const stockData = {
 
 };
 
+/*
+ * Dump stock (sample) by how the dump was given: eAuction or Allotted.
+ * Balance = Total - Transported; it lies within or outside the geofence.
+ */
+export const dumpStockData = {
+  eauction: {
+    key: "eauction",
+    title: "eAuction",
+    total: 18400,
+    processed: 9200,
+    transported: 6100,
+    geofence: { within: 9800, outside: 2500 },
+  },
+  allotted: {
+    key: "allotted",
+    title: "Allotted",
+    total: 26600,
+    processed: 14300,
+    transported: 8900,
+    geofence: { within: 14200, outside: 3500 },
+  },
+};
+
 const formatMT = (value) => {
   return `${value.toLocaleString("en-IN")} MT`;
 };
@@ -101,6 +125,9 @@ const formatMT = (value) => {
 function StockSummary() {
   const [selectedSource, setSelectedSource] = useState(null);
   const [stockView, setStockView] = useState("total");
+  const [dumpsOpen, setDumpsOpen] = useState(false);
+
+  const totalDumps = Object.values(dumpStockData).reduce((total, dump) => total + dump.total, 0);
 
   /*
    * Total Stock is deliberately view-only.
@@ -124,16 +151,25 @@ function StockSummary() {
     setSelectedSource(null);
   };
 
+  const collapse = useCollapsible(true);
+
   return (
-    <section className="stock-summary">
+    <section className={`stock-summary dash-panel${collapse.open ? "" : " collapsed"}`}>
       {/* Section Header */}
-      <div className="stock-summary-header">
+      <div className="stock-summary-header panel-head">
         <div>
           <h2>Stock Summary</h2>
           <p>Current stock across registered sources</p>
+        </div>
+        <div className="panel-head-actions">
           <PeriodChip />
+          <PartyTag />
+          <CollapseButton collapse={collapse} label="Stock Summary" />
         </div>
       </div>
+
+      {collapse.open && (
+        <>
 
       {/* =========================
           MAIN STOCK CARDS
@@ -172,6 +208,13 @@ function StockSummary() {
           source={stockData.imported}
           onClick={() => openDetails(stockData.imported)}
         />
+
+        {/* DUMPS */}
+        <StockSourceCard
+          source={{ title: "Dumps", total: totalDumps }}
+          description="eAuction + Allotted dumps"
+          onClick={() => setDumpsOpen(true)}
+        />
       </div>
 
       {/* =========================
@@ -188,6 +231,10 @@ function StockSummary() {
           onClose={closeDetails}
         />
       )}
+
+      {dumpsOpen && <DumpStockDetail onClose={() => setDumpsOpen(false)} />}
+        </>
+      )}
     </section>
   );
 }
@@ -196,7 +243,7 @@ function StockSummary() {
    SOURCE CARD
 ========================================= */
 
-function StockSourceCard({ source, onClick }) {
+function StockSourceCard({ source, onClick, description = "Click to view stock composition" }) {
   return (
     <button
       type="button"
@@ -211,10 +258,83 @@ function StockSourceCard({ source, onClick }) {
 
       <div className="stock-card-value">{formatMT(source.total)}</div>
 
-      <div className="stock-card-description">
-        Click to view stock composition
-      </div>
+      <div className="stock-card-description">{description}</div>
     </button>
+  );
+}
+
+/* =========================================
+   DUMPS DETAIL VIEW
+========================================= */
+
+function DumpStockDetail({ onClose }) {
+  const [tab, setTab] = useState("eauction");
+  const dump = dumpStockData[tab];
+  const balance = dump.total - dump.transported;
+  const geofenceTotal = dump.geofence.within + dump.geofence.outside;
+
+  return (
+    <DetailDrawer
+      open
+      onClose={onClose}
+      eyebrow="Stock Details"
+      title="Dumps Stock"
+      description="Dump stock by how the dump was given, as of the end of yesterday"
+    >
+      <div className="stock-detail-panel">
+        <div className="stock-view-controls">
+          <div className="stock-view-switch" role="tablist" aria-label="Dump type">
+            {Object.values(dumpStockData).map((item) => (
+              <button
+                key={item.key}
+                type="button"
+                role="tab"
+                aria-selected={tab === item.key}
+                className={`stock-view-button ${tab === item.key ? "active" : ""}`}
+                onClick={() => setTab(item.key)}
+              >
+                {item.title}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="material-summary-grid four">
+          <MaterialSummaryCard title="Total" quantity={dump.total} description={`${dump.title} dumps`} />
+          <MaterialSummaryCard title="Processed" quantity={dump.processed} description="Screened so far" />
+          <MaterialSummaryCard title="Transported" quantity={dump.transported} description="Moved out" />
+          <MaterialSummaryCard title="Balance" quantity={balance} description="Total − Transported" />
+        </div>
+
+        <div className="grade-section">
+          <div className="grade-section-header">
+            <div>
+              <h4>Where the balance lies</h4>
+              <p>Balance stock within and outside the geofence</p>
+            </div>
+          </div>
+
+          <div className="geofence-grid">
+            {[
+              ["Within geofence", dump.geofence.within],
+              ["Outside geofence", dump.geofence.outside],
+            ].map(([label, quantity]) => {
+              const share = Math.round((quantity / geofenceTotal) * 100);
+              return (
+                <div className="geofence-card" key={label}>
+                  <span>{label}</span>
+                  <strong>{formatMT(quantity)}</strong>
+                  <div className="geofence-bar" aria-hidden="true">
+                    <span style={{ width: `${share}%` }} />
+                  </div>
+                  <small>{share}% of balance</small>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </DetailDrawer>
   );
 }
 

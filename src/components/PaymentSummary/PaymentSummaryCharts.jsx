@@ -1,7 +1,8 @@
 import React from "react";
-import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 import ChartCard from "../common/ChartCard/ChartCard";
-import { AXIS_TICK, PALETTE, TOOLTIP_STYLE, formatRupeesShort } from "../common/ChartCard/chartTheme";
+import { AXIS_TICK, CHART_COLORS, TOOLTIP_STYLE, formatRupeesShort } from "../common/ChartCard/chartTheme";
+import { processingData } from "../OreProcessing/OreProcessing";
 import "./PaymentSummaryCharts.css";
 
 /** ROM / Lumps / Fines amounts for a payment head (regional heads are summed over regions). */
@@ -14,35 +15,58 @@ const materialAmounts = (payment) => {
   return { ROM: total("rom"), Lumps: total("lumps"), Fines: total("fines") };
 };
 
+/*
+ * Sample: share of lumps and fines in each Fe grade band, taken from the
+ * processed ore. Replace with grade-wise payment figures from the API.
+ */
+const gradeShares = (material) => {
+  const sources = Object.values(processingData);
+  const bands = sources[0][material].grades.map((grade, index) => ({
+    range: grade.range,
+    quantity: sources.reduce((sum, source) => sum + source[material].grades[index].quantity, 0),
+  }));
+  const total = bands.reduce((sum, band) => sum + band.quantity, 0);
+  return bands.map((band) => ({ range: band.range, share: band.quantity / total }));
+};
+
 /** Charts under the Payment Summary cards. */
 function PaymentSummaryCharts({ payments }) {
-  const totals = [...payments]
-    .sort((a, b) => b.total - a.total)
-    .map((payment) => ({ name: payment.title, amount: payment.total }));
-  const grandTotal = totals.reduce((sum, item) => sum + item.amount, 0);
-
-  // Same order as the collection chart: largest head first.
+  // Largest head first.
   const byMaterial = [...payments]
     .sort((a, b) => b.total - a.total)
     .map((payment) => ({ name: payment.title, ...materialAmounts(payment) }));
 
+  const sumOf = (key) => byMaterial.reduce((sum, row) => sum + row[key], 0);
+  const lumps = sumOf("Lumps");
+  const fines = sumOf("Fines");
+  const rom = sumOf("ROM");
+
+  const lumpShares = gradeShares("lumps");
+  const fineShares = gradeShares("fines");
+  const byGrade = lumpShares.map((band, index) => ({
+    range: band.range,
+    Lumps: Math.round(lumps * band.share),
+    Fines: Math.round(fines * fineShares[index].share),
+  }));
+
   return (
     <div className="section-charts">
       <ChartCard
-        title="Collection by Payment Head"
-        subtitle={`Total ${formatRupeesShort(grandTotal)}`}
-        footer="DMF and GIOPF include North and South regions."
+        title="Payment by Grade"
+        subtitle={`Lumps + Fines ${formatRupeesShort(lumps + fines)} · all payment heads`}
+        legend={[
+          { label: "Lumps", color: CHART_COLORS.lumps },
+          { label: "Fines", color: CHART_COLORS.fines },
+        ]}
+        footer={`ROM has no grade: ${formatRupeesShort(rom)} not shown here. Higher Fe % is better quality.`}
       >
-        <BarChart data={totals} layout="vertical" margin={{ top: 4, right: 24, left: 4, bottom: 0 }}>
-          <CartesianGrid horizontal={false} stroke="#f1f3f5" />
-          <XAxis type="number" tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={formatRupeesShort} />
-          <YAxis type="category" dataKey="name" tick={AXIS_TICK} tickLine={false} axisLine={false} width={120} />
+        <BarChart data={byGrade} margin={{ top: 8, right: 8, left: 6, bottom: 0 }}>
+          <CartesianGrid vertical={false} stroke="#f1f3f5" />
+          <XAxis dataKey="range" tick={AXIS_TICK} tickLine={false} axisLine={{ stroke: "#e2e5e9" }} />
+          <YAxis tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={formatRupeesShort} width={72} />
           <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value) => formatRupeesShort(value)} cursor={{ fill: "#fff5f5" }} />
-          <Bar dataKey="amount" name="Amount" radius={[0, 4, 4, 0]} maxBarSize={24}>
-            {totals.map((item, index) => (
-              <Cell key={item.name} fill={PALETTE[index]} />
-            ))}
-          </Bar>
+          <Bar dataKey="Lumps" stackId="grade" fill={CHART_COLORS.lumps} maxBarSize={44} />
+          <Bar dataKey="Fines" stackId="grade" fill={CHART_COLORS.fines} radius={[4, 4, 0, 0]} maxBarSize={44} />
         </BarChart>
       </ChartCard>
 

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import CollapseButton, { useCollapsible } from "../common/SectionPanel/SectionPanel";
 import { useDashboard } from "../../context/DashboardContext";
 import DetailDrawer from "../common/DetailDrawer/DetailDrawer";
-import PeriodChip from "../common/PeriodChip/PeriodChip";
+import PeriodChip, { PartyTag } from "../common/PeriodChip/PeriodChip";
 import { Icon } from "../DashboardOverview/OverviewParts";
 import "./MasterData.css";
 
@@ -128,15 +129,24 @@ function MasterData() {
     resources.weighbridges && { key: "weighbridges", icon: "scale", title: "Weighbridges", status: resources.weighbridges },
   ].filter(Boolean);
 
+  const collapse = useCollapsible(false);
+
   return (
-    <section className="master-data-section">
-      <div className="section-header">
+    <section className={`master-data-section dash-panel${collapse.open ? "" : " collapsed"}`}>
+      <div className="section-header panel-head">
         <div>
           <h2>Master Data</h2>
           <p>Registered parties, vehicles, weighbridges and violations</p>
+        </div>
+        <div className="panel-head-actions">
           <PeriodChip />
+          <PartyTag />
+          <CollapseButton collapse={collapse} label="Master Data" />
         </div>
       </div>
+
+      {collapse.open && (
+        <>
 
       <PartyTable parties={isParty ? partyRegistry.slice(0, 1) : partyRegistry} />
 
@@ -176,6 +186,8 @@ function MasterData() {
           <p>Recorded up to yesterday</p>
         </MasterStat>
       </div>
+        </>
+      )}
     </section>
   );
 }

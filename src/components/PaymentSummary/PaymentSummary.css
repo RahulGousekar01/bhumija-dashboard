@@ -532,3 +532,8 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Daily chart in the payment drawer */
+.payment-daily {
+  margin-bottom: 18px;
+}

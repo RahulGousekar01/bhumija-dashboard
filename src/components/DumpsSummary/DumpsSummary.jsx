@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
+import CollapseButton, { useCollapsible } from "../common/SectionPanel/SectionPanel";
 import { useDashboard } from "../../context/DashboardContext";
 import DetailDrawer from "../common/DetailDrawer/DetailDrawer";
-import PeriodChip from "../common/PeriodChip/PeriodChip";
+import PeriodChip, { PartyTag } from "../common/PeriodChip/PeriodChip";
 import "./DumpsSummary.css";
 import DumpsSummaryCharts from "./DumpsSummaryCharts";
 
@@ -87,55 +88,93 @@ export const dumpData = {
   ],
 };
 
+// Sample: dump material processed by each party (wet + dry screening).
+export const partyProcessed = {
+  "ABC Mining Pvt Ltd": { wet: 5200, dry: 4400 },
+  "XYZ Minerals": { wet: 3900, dry: 3100 },
+  "Goa Ore Industries": { wet: 2800, dry: 2300 },
+  "Konkan Minerals": { wet: 1500, dry: 1200 },
+};
+
+// The logged-in party in this prototype.
+export const OWN_PARTY = "ABC Mining Pvt Ltd";
+
 const formatMT = (value) => `${value.toLocaleString("en-IN")} MT`;
 const formatMillionMT = (value) => `${(value / 1000000).toFixed(1)} M MT`;
 
+/**
+ * The party whose dumps are shown: a Party user sees only its own; a Super
+ * Admin sees everyone, or one party picked in the Organisation filter.
+ */
+export function useDumpScope() {
+  const { isParty, filters } = useDashboard();
+  if (isParty) return OWN_PARTY;
+  return filters.organisation !== "ALL" ? filters.organisation : null;
+}
+
 function DumpsSummary() {
   const { isParty } = useDashboard();
+  const scopeParty = useDumpScope();
   const [drawer, setDrawer] = useState(null);
   const [extractedView, setExtractedView] = useState("geofence");
   const [screening, setScreening] = useState("wet");
 
-  const annualSplit = useMemo(() => {
-    const allocation = dumpData.annualTotal.allocation.reduce((sum, row) => sum + row.allocated, 0);
-    const eauction = dumpData.annualTotal.eauction.reduce((sum, row) => sum + row.allocated, 0);
-    return { allocation, eauction };
-  }, []);
-  const totalAnnualDump = annualSplit.allocation + annualSplit.eauction;
-  const { wet, dry } = dumpData.processed;
+  const inScope = (row) => !scopeParty || row.party === scopeParty;
 
-  const ownExtracted = dumpData.extracted.parties[0];
-  const extractedRows = isParty ? [ownExtracted] : dumpData.extracted.parties;
-  const wasteRows = isParty ? [dumpData.waste[0]] : dumpData.waste;
-  const visibleExtracted = isParty
-    ? { extracted: ownExtracted.extracted, transported: ownExtracted.transported }
-    : {
-        extracted: dumpData.extracted.parties.reduce((sum, row) => sum + row.extracted, 0),
-        transported: dumpData.extracted.parties.reduce((sum, row) => sum + row.transported, 0),
-      };
+  const allocationRows = dumpData.annualTotal.allocation.filter(inScope);
+  const eauctionRows = dumpData.annualTotal.eauction.filter(inScope);
+  const annualSplit = {
+    allocation: allocationRows.reduce((sum, row) => sum + row.allocated, 0),
+    eauction: eauctionRows.reduce((sum, row) => sum + row.allocated, 0),
+  };
+  const totalAnnualDump = annualSplit.allocation + annualSplit.eauction;
+
+  const scopedProcessed = scopeParty ? partyProcessed[scopeParty] ?? { wet: 0, dry: 0 } : null;
+  const wet = { total: scopedProcessed ? scopedProcessed.wet : dumpData.processed.wet.total };
+  const dry = { total: scopedProcessed ? scopedProcessed.dry : dumpData.processed.dry.total };
+
+  const extractedRows = dumpData.extracted.parties.filter(inScope);
+  const wasteRows = dumpData.waste.filter(inScope);
+  const visibleExtracted = {
+    extracted: extractedRows.reduce((sum, row) => sum + row.extracted, 0),
+    transported: extractedRows.reduce((sum, row) => sum + row.transported, 0),
+  };
+
+  // Party users only view their figures; drawers with other parties' rows stay with the Super Admin.
+  const viewOnly = isParty;
 
   const openDrawer = (type) => setDrawer(type);
   const closeDrawer = () => setDrawer(null);
 
+  const collapse = useCollapsible(false);
+
   return (
-    <section className="dumps-summary-section">
-      <div className="section-header">
+    <section className={`dumps-summary-section dash-panel${collapse.open ? "" : " collapsed"}`}>
+      <div className="section-header panel-head">
         <div>
           <h2>Dumps Summary</h2>
           <p>Dump allocation, extraction, processing and waste monitoring</p>
+        </div>
+        <div className="panel-head-actions">
           <PeriodChip />
+          <PartyTag />
+          <CollapseButton collapse={collapse} label="Dumps Summary" />
         </div>
       </div>
 
+      {collapse.open && (
+        <>
+
       <div className="dumps-summary-grid">
         <DumpCard
-          title="Annual Total Dump"
+          title={isParty ? "Dump Allotted to You" : "Annual Total Dump"}
           value={formatMillionMT(totalAnnualDump)}
           rows={[
             { label: "Allocation", value: formatMillionMT(annualSplit.allocation) },
             { label: "eAuction", value: formatMillionMT(annualSplit.eauction) },
           ]}
-          onClick={() => openDrawer("annual")}
+          label={viewOnly ? "View only" : undefined}
+          onClick={viewOnly ? undefined : () => openDrawer("annual")}
         />
         <DumpCard
           title="Extracted"
@@ -147,7 +186,8 @@ function DumpsSummary() {
             },
             { label: "Transported", value: formatMT(visibleExtracted.transported) },
           ]}
-          onClick={() => openDrawer("extracted")}
+          label={viewOnly ? "View only" : undefined}
+          onClick={viewOnly ? undefined : () => openDrawer("extracted")}
         />
         <DumpCard
           title="Processed"
@@ -156,17 +196,19 @@ function DumpsSummary() {
             { label: "Wet Screening", value: formatMT(wet.total) },
             { label: "Dry Screening", value: formatMT(dry.total) },
           ]}
-          onClick={() => openDrawer("processed")}
+          label={viewOnly ? "View only" : undefined}
+          // The grade-wise drawer covers all parties, so it opens only on the unfiltered view.
+          onClick={viewOnly || scopeParty ? undefined : () => openDrawer("processed")}
         />
         <DumpCard
           title="Waste"
           value={formatMT(wasteRows.reduce((sum, row) => sum + row.waste, 0))}
-          label={isParty ? "Waste generated" : "Party-wise waste"}
-          onClick={isParty ? undefined : () => openDrawer("waste")}
+          label={viewOnly ? "View only" : scopeParty ? "Waste generated" : "Party-wise waste"}
+          onClick={viewOnly ? undefined : () => openDrawer("waste")}
         />
       </div>
 
-      <DumpsSummaryCharts />
+      <DumpsSummaryCharts scopeParty={scopeParty} processed={wet.total + dry.total} />
 
       <DetailDrawer
         open={drawer === "annual"}
@@ -175,8 +217,8 @@ function DumpsSummary() {
         title="Annual Total Dump"
         description="Annual dump quantity split between allocation and eAuction."
       >
-        <DumpAllocationTable title="Allocation" rows={dumpData.annualTotal.allocation} />
-        <DumpAllocationTable title="EAuction" rows={dumpData.annualTotal.eauction} />
+        <DumpAllocationTable title="Allocation" rows={allocationRows} />
+        <DumpAllocationTable title="EAuction" rows={eauctionRows} />
       </DetailDrawer>
 
       <DetailDrawer
@@ -264,6 +306,8 @@ function DumpsSummary() {
           </table>
         </div>
       </DetailDrawer>
+        </>
+      )}
     </section>
   );
 }

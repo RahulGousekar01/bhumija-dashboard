@@ -28,8 +28,8 @@ export function SectionPeriodChip({ control }) {
 }
 
 /**
- * Right-hand controls: [months] Custom · 30 days · 7 days · Reset.
- * Custom sits first so its month pickers open on the left without moving the buttons.
+ * Right-hand controls: [months] Change date · 30 days · 7 days · Reset.
+ * Change date sits first so its month pickers open on the left without moving the buttons.
  */
 function SectionPeriodFilter({ control, label = "Period" }) {
   const { state, setState, defaultPreset } = control;
@@ -70,7 +70,7 @@ function SectionPeriodFilter({ control, label = "Period" }) {
 
       <div className="section-period-options" role="group" aria-label={label}>
         <button type="button" aria-pressed={state.preset === "custom"} onClick={chooseCustom}>
-          Custom
+          Change date
         </button>
         {[...PERIOD_PRESETS].reverse().map((item) => (
           <button key={item.key} type="button" aria-pressed={state.preset === item.key} onClick={() => choose(item.key)}>

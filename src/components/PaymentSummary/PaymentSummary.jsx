@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { rangeFactor } from "../../context/period";
-import { formatRupeesShort } from "../common/ChartCard/chartTheme";
+import CollapseButton, { useCollapsible } from "../common/SectionPanel/SectionPanel";
+import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis } from "recharts";
+import { dailyValues, dayLabel, rangeFactor } from "../../context/period";
+import ChartCard from "../common/ChartCard/ChartCard";
+import { AXIS_TICK, CHART_COLORS, TOOLTIP_STYLE, formatRupeesShort } from "../common/ChartCard/chartTheme";
 import DetailDrawer from "../common/DetailDrawer/DetailDrawer";
+import { PartyTag } from "../common/PeriodChip/PeriodChip";
 import SectionPeriodFilter, { SectionPeriodChip, useSectionPeriod } from "../common/SectionPeriod/SectionPeriod";
 import "./PaymentSummary.css";
 import PaymentSummaryCharts from "./PaymentSummaryCharts";
@@ -251,21 +255,30 @@ function PaymentSummary() {
     setSelectedKey(null);
   };
 
+  const collapse = useCollapsible(false);
+
   return (
-    <section className="payment-summary">
+    <section className={`payment-summary dash-panel${collapse.open ? "" : " collapsed"}`}>
       {/* =================================
           SECTION HEADER
       ================================= */}
 
-      <div className="payment-summary-header section-head-period">
+      <div className="payment-summary-header section-head-period panel-head">
         <div>
           <h2>Payment Summary</h2>
 
           <p>Payment heads and corresponding payments</p>
-          <SectionPeriodChip control={periodControl} />
         </div>
-        <SectionPeriodFilter control={periodControl} label="Payment period" />
+        <div className="panel-head-actions">
+          <SectionPeriodChip control={periodControl} />
+          <PartyTag />
+          <SectionPeriodFilter control={periodControl} label="Payment period" />
+          <CollapseButton collapse={collapse} label="Payment Summary" />
+        </div>
       </div>
+
+      {collapse.open && (
+        <>
 
       {/* =================================
           PAYMENT CARDS
@@ -288,7 +301,14 @@ function PaymentSummary() {
       <PaymentSummaryCharts payments={payments} />
 
       {selectedPayment && (
-        <PaymentDetail payment={selectedPayment} periodText={`${period.title} · ${period.range}`} onClose={closeDetails} />
+        <PaymentDetail
+          payment={selectedPayment}
+          period={period}
+          periodText={`${period.title} · ${period.range}`}
+          onClose={closeDetails}
+        />
+      )}
+        </>
       )}
     </section>
   );
@@ -320,7 +340,7 @@ function PaymentCard({ payment, onClick }) {
    PAYMENT DETAIL
 ========================================= */
 
-function PaymentDetail({ payment, periodText, onClose }) {
+function PaymentDetail({ payment, period, periodText, onClose }) {
   return (
     <DetailDrawer
       open
@@ -341,6 +361,8 @@ function PaymentDetail({ payment, periodText, onClose }) {
 
           <span className="payment-rate-badge">{payment.rate}</span>
         </div>
+
+        <PaymentDailyChart paymentKey={payment.key} period={period} />
 
         {/* =================================
             REGIONAL PAYMENT
@@ -495,3 +517,47 @@ function PaymentMaterialCard({ title, stock, amount }) {
 }
 
 export default PaymentSummary;
+
+/* =========================================
+   DAILY CHART IN THE DRAWER
+========================================= */
+
+// The drawer chart never shows more than this many days.
+const MAX_DRAWER_DAYS = 15;
+
+/**
+ * Daily amount for one payment head, ending on the period's last day:
+ * 7 days for a single day, otherwise the period, at most 15 days.
+ */
+function PaymentDailyChart({ paymentKey, period }) {
+  const base = paymentData.find((item) => item.key === paymentKey).total;
+  const days = period.days === 1 ? 7 : Math.min(period.days, MAX_DRAWER_DAYS);
+  const series = dailyValues("payment", base, period.toDaysAgo + days - 1, period.toDaysAgo).map((day) => ({
+    day: dayLabel(period.dateOf(day.daysAgo)).slice(0, 6),
+    amount: day.value,
+    inPeriod: day.daysAgo <= period.fromDaysAgo,
+  }));
+  const capped = period.days > MAX_DRAWER_DAYS;
+
+  return (
+    <div className="payment-daily">
+      <ChartCard
+        title={`Daily amount · last ${days} days`}
+        subtitle={capped ? `Showing the last ${MAX_DRAWER_DAYS} days of the period` : "Days in the selected period are highlighted"}
+        height={200}
+      >
+        <BarChart data={series} margin={{ top: 8, right: 8, left: 6, bottom: 0 }}>
+          <CartesianGrid vertical={false} stroke="#f1f3f5" />
+          <XAxis dataKey="day" tick={AXIS_TICK} tickLine={false} axisLine={{ stroke: "#e2e5e9" }} interval="preserveStartEnd" minTickGap={8} />
+          <YAxis tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={formatRupeesShort} width={72} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value) => [formatRupeesShort(value), "Amount"]} cursor={{ fill: "#fff5f5" }} />
+          <Bar dataKey="amount" name="Amount" radius={[4, 4, 0, 0]} maxBarSize={28}>
+            {series.map((day) => (
+              <Cell key={day.day} fill={day.inPeriod ? CHART_COLORS.primary : "#ffc9cc"} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ChartCard>
+    </div>
+  );
+}

@@ -1,13 +1,14 @@
 import React from "react";
 import { CHART_COLORS, formatMT } from "../common/ChartCard/chartTheme";
 import { processingData } from "./OreProcessing";
+import InfoTip from "../common/InfoTip/InfoTip";
 import "./OreProcessingCharts.css";
 
 const sum = (items, pick) => items.reduce((total, item) => total + pick(item), 0);
 const share = (value, total) => (total > 0 ? Math.round((value / total) * 100) : 0);
 
 const sourceLabel = (source) =>
-  source.flag ? `${source.title} · ${source.flag === "PRIMARY" ? "Primary" : "Non-Primary"}` : source.title;
+  source.flag ? `${source.title} · ${source.flag === "PRIMARY" ? "Primary" : "Secondary"}` : source.title;
 
 const MATERIALS = [
   { key: "lumps", label: "Lumps", color: CHART_COLORS.lumps, pick: (source) => source.lumps.total },
@@ -141,7 +142,9 @@ function ProcessedQuality({ sources }) {
     <div className="chart-card">
       <div className="chart-card-header">
         <h3>Quality of Processed Ore</h3>
-        <span>Graded output (Lumps + Fines) {formatMT(graded)}</span>
+        <span>
+          All sources combined (eAuction + Royalty Paid · Primary + Secondary) · Lumps + Fines {formatMT(graded)}
+        </span>
       </div>
 
       <div className="quality-tiers">
@@ -164,7 +167,14 @@ function ProcessedQuality({ sources }) {
       </div>
 
       <div className="quality-sources">
-        <span className="quality-sources-title">Average grade</span>
+        <span className="quality-sources-title">
+          Average grade
+          <InfoTip title="How the average grade is worked out">
+            Each source's lumps and fines are recorded in Fe grade bands. We take the middle of each band (for
+            example 55–59% counts as 57%), weight it by the tonnes in that band, and divide by the source's
+            total graded tonnes. "High grade" is the share of those tonnes at 55% Fe or above. ROM is not graded.
+          </InfoTip>
+        </span>
         {sources.map((source) => {
           const sourceBands = gradedBands(source);
           const sourceGraded = sum(sourceBands, (band) => band.quantity);
